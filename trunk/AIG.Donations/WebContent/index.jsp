@@ -35,7 +35,7 @@
 	</form>
 	
 	<hr/>	
-
+	<a href="db_test.jsp"> Go To DB Test</a>
 
 	
 </center>
