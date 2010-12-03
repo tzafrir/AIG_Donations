@@ -46,4 +46,10 @@ class Project {
 	  return false;
   }
 
+	static long addToDB(String name, String description, String location, Date eventTime) {
+	  // TODO Auto-generated method stub
+		//TODO: should return the id generated for this project
+	  return 0;
+  }
+
 }
