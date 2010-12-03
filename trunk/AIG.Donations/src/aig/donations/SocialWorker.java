@@ -85,6 +85,8 @@ class SocialWorker extends User {
     }
     
     item.setStatus(newStatus);
+    //TODO- if the new status is that the item arrived- try and "wake"
+    // up a receiver from the receiverQueue
 	}
 
 	private boolean isTransitionLegal(ItemStatus oldStatus, ItemStatus newStatus) {
