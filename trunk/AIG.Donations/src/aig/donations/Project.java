@@ -1,6 +1,7 @@
 package aig.donations;
 
 import java.util.Date;
+import java.util.List;
 
 import aig.donations.exceptions.ProjectNotFoundException;
 
@@ -55,6 +56,11 @@ class Project {
 	public static void addToWaitingQueue(long projectId, long categoryId, String username) {
 	  // TODO Auto-generated method stub
 	  
+  }
+
+	public boolean hasCategory(long categoryId) {
+	  // TODO Auto-generated method stub
+	  return false;
   }
 
 }
