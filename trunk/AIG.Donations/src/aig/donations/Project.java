@@ -52,4 +52,9 @@ class Project {
 	  return 0;
   }
 
+	public static void addToWaitingQueue(long projectId, long categoryId, String username) {
+	  // TODO Auto-generated method stub
+	  
+  }
+
 }
