@@ -57,7 +57,7 @@ class SocialWorker extends User {
 	
 	void addCategoryToProject(long projectId, long categoryId) throws ProjectNotFoundException, CategoryNotFoundException {
 		//make sure category exists:
-		Category.retrieveCategory(categoryId);
+		new Category().retrieveCategory(categoryId);
 		
 		Project.retrieveProject(projectId).addCategory(categoryId);
 	}
