@@ -21,7 +21,7 @@ class Item {
 	  return null;
   }
 
-	void setProject(long destinationProjectId) {
+	void setProject(long newProjectId) {
 	  // TODO Auto-generated method stub
 	  
   }
@@ -31,13 +31,23 @@ class Item {
 	  return null;
   }
 
-	public static List<Item> retrieveItemsByDonor(String username) {
+	static List<Item> retrieveItemsByDonor(String username) {
 	  // TODO Auto-generated method stub
 	  return null;
   }
 
-	public static void addToDB(String name, String description, long projectId,
+	static void addToDB(String name, String description, long projectId,
       long categoryId, ItemStatus status, Date donationTimestamp, String donorUsername) {
+	  // TODO Auto-generated method stub
+	  
+  }
+
+	Category getCategory() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	void setCategory(long newCategoryId) {
 	  // TODO Auto-generated method stub
 	  
   }

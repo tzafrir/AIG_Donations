@@ -89,4 +89,9 @@ public class Category {
   long addToDB(String name, String description, long parentId) {
     return gateway.insertCategory(name, description, parentId);
   }
+
+	long getId() {
+	  // TODO Auto-generated method stub
+	  return 0;
+  }
 }

@@ -3,6 +3,7 @@ package aig.donations;
 import java.util.Date;
 import java.util.List;
 
+import aig.donations.exceptions.EmptyWaitingListException;
 import aig.donations.exceptions.NoPendingItemsException;
 import aig.donations.exceptions.ProjectNotFoundException;
 import aig.donations.exceptions.UserNotInWaitingListException;
@@ -73,6 +74,12 @@ class Project {
 	Item getPendingItem(long categoryId) throws NoPendingItemsException {
 	  // TODO Auto-generated method stub
 	  return null;
+  }
+
+	static String removeFirstFromWaitingQueue(long projectId, long categoryId) throws EmptyWaitingListException {
+	  // TODO Auto-generated method stub
+	  //TODO: return the username of the removed user
+		return null;
   }
 
 }

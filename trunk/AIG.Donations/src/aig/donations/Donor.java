@@ -25,9 +25,12 @@ class Donor extends User {
 		if(!project.hasCategory(categoryId)) {
 			throw new CategoryDoesNotExistInProjectException("No such category in the project");
 		}
-		//TODO- check that itemName and itemDescription are valid
+		ParameterLegalityChecker checker = new ParameterLegalityChecker();
+		checker.checkItemName(itemName);
+		checker.checkItemDescription(itemDescription);
+
 		Item.addToDB(itemName, itemDescription, projectId, categoryId,
-				         ItemStatus.DONATED, new Date() , getUsername());
+				         ItemStatus.DONATED, new Date(), getUsername());
 	}
 	
 	List<Item> getDonatedItems() {

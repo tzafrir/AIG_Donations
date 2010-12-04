@@ -1,5 +1,6 @@
 package aig.donations;
 
+import java.util.Date;
 import java.util.List;
 
 class ReceivedItem extends Item {
@@ -25,6 +26,11 @@ class ReceivedItem extends Item {
   }
 
 	void setReceiverUsername(String newUsername) {
+	  // TODO Auto-generated method stub
+	  
+  }
+
+	void setReceptionTimestamp(Date date) {
 	  // TODO Auto-generated method stub
 	  
   }
