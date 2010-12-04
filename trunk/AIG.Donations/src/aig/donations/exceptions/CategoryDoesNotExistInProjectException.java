@@ -1,6 +1,6 @@
-package aig.donations;
+package aig.donations.exceptions;
 
-public class CategoryDoesNotExistInProjectException extends Exception {
+public class CategoryDoesNotExistInProjectException extends ElementNotFoundException {
 
 	public CategoryDoesNotExistInProjectException(String message) {
 	  super(message);

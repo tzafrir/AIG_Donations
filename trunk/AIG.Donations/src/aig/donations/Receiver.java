@@ -2,8 +2,14 @@ package aig.donations;
 
 import java.util.List;
 
+import aig.donations.exceptions.CategoryDoesNotExistInProjectException;
+import aig.donations.exceptions.IllegalItemStatusTransitionException;
+import aig.donations.exceptions.ItemNotMatchedException;
+import aig.donations.exceptions.NoPendingItemsException;
 import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
+import aig.donations.exceptions.UserMismatchException;
+import aig.donations.exceptions.UserNotInWaitingListException;
 
 class Receiver extends User {
 
@@ -11,44 +17,87 @@ class Receiver extends User {
 	  super(user.getUsername(), user.getRole(), user.getName());
   }
 
-	void requestItem(long projectId, long categoryId) throws ProjectClosedException, ProjectNotFoundException {
-		if(Project.retrieveProject(projectId).isClosed()) {
+	void requestItem(long projectId, long categoryId)
+	throws ProjectClosedException, ProjectNotFoundException, CategoryDoesNotExistInProjectException,
+	IllegalItemStatusTransitionException {
+		Project project = Project.retrieveProject(projectId);
+		if(project.isClosed()) {
+			//also checks that the project exists
 			throw new ProjectClosedException("Can't request from a closed project");
 		}
-		//TODO- check if categoryId exists in project? or it will throw in the DB functions?
+		if(!project.hasCategory(categoryId)) {
+			throw new CategoryDoesNotExistInProjectException("No such category in the project");
+		}
 		
-		//TODO- where is the matching done? if it's here:
-		// get an item (the first?) from the project and the category
-		// THAT IS ALREADY IN STORAGE (according to the item.status)
-		// and change Items in the DB (add a funciton to Item?)
-		// if there's no item:
-		Project.addToWaitingQueue(projectId, categoryId, getUsername());
+		//TODO: can a user request twice from the same category?
+		
+		//TODO: check if category is a leaf in the categories forest?
+		Item itemToBeReceived = null;
+		try {
+			itemToBeReceived = project.getPendingItem(categoryId);
+    } catch (NoPendingItemsException e) {
+	    //no item waiting - add user to waiting queue
+    	Project.addToWaitingQueue(projectId, categoryId, getUsername());
+    	return;
+    }
+		
+    //we found an item. Match it:
+		changeItemStatus(new ReceivedItem(itemToBeReceived), ItemStatus.MATCHED);
+		
 	}
 	
 	List<ReceivedItem> getReceivedItems() {
 		return ReceivedItem.retrieveItemsByReceiver(getUsername());
 	}
 	
-	void regretDonation(long projectId, long categoryId) throws ProjectNotFoundException, ProjectClosedException {
-		if(Project.retrieveProject(projectId).isClosed()) {
+	void regretItemRequest(long itemId)
+	throws ItemNotMatchedException, UserMismatchException, IllegalItemStatusTransitionException {
+		
+		ReceivedItem item = ReceivedItem.retrieveItem(itemId);
+		
+		if (getUsername() != item.getReceiverUsername()) {
+			throw new UserMismatchException("Trying to regret a request for an item that doesn't " +
+					                            "belong to the user");
+		}
+		if (item.getStatus() != ItemStatus.MATCHED) {
+			throw new ItemNotMatchedException("Can't regret an item that isn't matched");
+		}
+		
+		changeItemStatus(item, ItemStatus.PENDING);
+	}
+
+	void regretCategoryRequest(long projectId, long categoryId)
+	throws ProjectNotFoundException, ProjectClosedException, CategoryDoesNotExistInProjectException, UserNotInWaitingListException {
+		
+		//this method is for users who are waiting in waiting queues (items weren't matched)
+		//TODO: add previous line to javadoc
+		Project project = Project.retrieveProject(projectId);
+		if (project.isClosed()) {
+			//also checks that the project exists
 			throw new ProjectClosedException("Can't regret from a closed project");
 		}
-		//TODO- check if categoryId exists in project? or it will throw in the DB functions?
+		if (!project.hasCategory(categoryId)) {
+			throw new CategoryDoesNotExistInProjectException("No such category in the project");
+		}
 		
-		//TODO- here it get's tricky:
-		/*
-		 * If we are in the waiting queue, just remove from there.
-		 * If we were already matched- either we cannot regret, or we
-		 * should find the item and remove its receiver.
-		 * Problems- maybe the item was received? maybe its on its way?
-		 * We should think when to allow this.
-		 * 
-		 * NOTE- can a person ask to receive several items in the same category?
-		 * If so, we won't know which to regret. If not, we should check it in requestItem.
-		 * We should maybe distinguish between several requests in a single project,
-		 * a single categories in a project, considering history or not (maybe
-		 * we already received before...), single category in several projects. 
-		 */
+		Project.removeUserFromWaitingQueue(projectId, categoryId, getUsername());
+		
 	}
 	
+	private void changeItemStatus(ReceivedItem item, ItemStatus newStatus)
+	throws IllegalItemStatusTransitionException {
+    ItemStatus oldStatus = item.getStatus();
+    if (ItemStatus.PENDING == oldStatus && ItemStatus.MATCHED == newStatus) {
+    	//PENDING --> MATCHED
+    	item.setReceiverUsername(getUsername());
+    } else if (ItemStatus.MATCHED == oldStatus && ItemStatus.PENDING == newStatus) {
+      //MATCHED --> PENDING
+    	item.setReceiverUsername(null);
+    } else {
+    	throw new IllegalItemStatusTransitionException(getRole().toString(), oldStatus.toString(),
+    			                                  newStatus.toString());
+    }
+		    
+    item.setStatus(newStatus);
+	}
 }

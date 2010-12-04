@@ -3,7 +3,9 @@ package aig.donations;
 import java.util.Date;
 import java.util.List;
 
+import aig.donations.exceptions.NoPendingItemsException;
 import aig.donations.exceptions.ProjectNotFoundException;
+import aig.donations.exceptions.UserNotInWaitingListException;
 
 class Project {
 //TODO: stub
@@ -53,14 +55,24 @@ class Project {
 	  return 0;
   }
 
-	public static void addToWaitingQueue(long projectId, long categoryId, String username) {
+	static void addToWaitingQueue(long projectId, long categoryId, String username) {
 	  // TODO Auto-generated method stub
-	  
   }
 
-	public boolean hasCategory(long categoryId) {
+	boolean hasCategory(long categoryId) {
 	  // TODO Auto-generated method stub
 	  return false;
+  }
+
+	static void removeUserFromWaitingQueue(long projectId, long categoryId, String username) throws UserNotInWaitingListException {
+	  // TODO Auto-generated method stub
+	  //TODO: removes the user 'username' from the queue, throws if it isn't there.
+	  //TODO: if a user can request twice from a category - does this remove 1 request or all requests from this category?
+  }
+
+	Item getPendingItem(long categoryId) throws NoPendingItemsException {
+	  // TODO Auto-generated method stub
+	  return null;
   }
 
 }

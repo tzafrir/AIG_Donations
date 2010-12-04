@@ -1,8 +1,8 @@
 package aig.donations.exceptions;
 
-public class CategoryNotFoundException extends ElementNotFoundException {
+public class UserNotInWaitingListException extends ElementNotFoundException {
 
-	public CategoryNotFoundException(String message) {
+	public UserNotInWaitingListException(String message) {
 	  super(message);
   }
 
@@ -10,5 +10,6 @@ public class CategoryNotFoundException extends ElementNotFoundException {
    * 
    */
   private static final long serialVersionUID = 1L;
+
 
 }

@@ -3,7 +3,7 @@ package aig.donations;
 import java.util.Date;
 
 import aig.donations.exceptions.CategoryNotFoundException;
-import aig.donations.exceptions.IllegalItemStatusTransition;
+import aig.donations.exceptions.IllegalItemStatusTransitionException;
 import aig.donations.exceptions.ItemNotFoundException;
 import aig.donations.exceptions.ProjectAlreadyClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
@@ -76,22 +76,27 @@ class SocialWorker extends User {
     item.setProject(destinationProjectId);
 	}
 	
-	void changeItemStatus(long itemId, ItemStatus newStatus) throws ItemNotFoundException, IllegalItemStatusTransition {
+	void changeItemStatus(long itemId, ItemStatus newStatus)
+	throws ItemNotFoundException, IllegalItemStatusTransitionException {
     Item item = Item.retrieveItem(itemId);
     
     final ItemStatus oldStatus = item.getStatus();
     if (!isTransitionLegal(oldStatus, newStatus)) {
-    	throw new IllegalItemStatusTransition(oldStatus.toString(), newStatus.toString());
+    	throw new IllegalItemStatusTransitionException(getRole().toString(), oldStatus.toString(),
+    			                                  newStatus.toString());
     }
     
     item.setStatus(newStatus);
     //TODO- if the new status is that the item arrived- try and "wake"
     // up a receiver from the receiverQueue
+    //TODO: change to RECEIVED should add a receptionTimestamp (to the DB)final ItemStatus oldStatus = item.getStatus();
 	}
 
 	private boolean isTransitionLegal(ItemStatus oldStatus, ItemStatus newStatus) {
 	  //TODO: refactor: move this method to somewhere more appropriate, like Item, or ItemStatus
-	  switch (oldStatus) {
+	  //TODO: keep only arrows maintained by social worker.
+		//TODO: possibly have an arrow for switching directly from donated to matched (someone is in the waiting queue)
+		switch (oldStatus) {
 	  case DONATED:
 	  	return (newStatus == ItemStatus.PENDING);
 	  case PENDING:

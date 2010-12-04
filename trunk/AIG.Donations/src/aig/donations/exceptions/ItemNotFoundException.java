@@ -2,6 +2,10 @@ package aig.donations.exceptions;
 
 public class ItemNotFoundException extends ElementNotFoundException {
 
+	public ItemNotFoundException(String message) {
+	  super(message);
+  }
+
 	/**
    * 
    */

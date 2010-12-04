@@ -1,8 +1,8 @@
 package aig.donations.exceptions;
 
-public class CategoryNotFoundException extends ElementNotFoundException {
+public class ItemNotMatchedException extends Exception {
 
-	public CategoryNotFoundException(String message) {
+	public ItemNotMatchedException(String message) {
 	  super(message);
   }
 
