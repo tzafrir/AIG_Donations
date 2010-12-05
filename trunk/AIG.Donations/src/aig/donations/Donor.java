@@ -29,11 +29,11 @@ class Donor extends User {
 		checker.checkItemName(itemName);
 		checker.checkItemDescription(itemDescription);
 
-		Item.addToDB(itemName, itemDescription, projectId, categoryId,
+		new Item().addToDB(itemName, itemDescription, projectId, categoryId,
 				         ItemStatus.DONATED, new Date(), getUsername());
 	}
 	
 	List<Item> getDonatedItems() {
-		return Item.retrieveItemsByDonor(getUsername());
+		return new Item().retrieveItemsByDonor(getUsername());
 	}
 }

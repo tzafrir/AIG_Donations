@@ -47,13 +47,13 @@ class Receiver extends User {
 	}
 	
 	List<ReceivedItem> getReceivedItems() {
-		return ReceivedItem.retrieveItemsByReceiver(getUsername());
+		return new ReceivedItem().retrieveItemsByReceiver(getUsername());
 	}
 	
 	void regretItemRequest(long itemId)
 	throws ItemNotMatchedException, UserMismatchException, IllegalItemStatusTransitionException {
 		
-		ReceivedItem item = ReceivedItem.retrieveItem(itemId);
+		ReceivedItem item = new ReceivedItem().retrieveItem(itemId);
 		
 		if (getUsername() != item.getReceiverUsername()) {
 			throw new UserMismatchException("Trying to regret a request for an item that doesn't " +

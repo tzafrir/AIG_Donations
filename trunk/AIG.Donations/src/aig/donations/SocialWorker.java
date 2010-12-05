@@ -65,7 +65,7 @@ class SocialWorker extends User {
 	
 	void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
 	throws ItemNotFoundException {
-    Item item = Item.retrieveItem(itemId);
+    Item item = new Item().retrieveItem(itemId);
     
     
     //TODO: do we need to check if the destination project is closed? I don't think so... since this operation can be done retroactively by the social worker, to describe the past... --> document our decision
@@ -76,7 +76,7 @@ class SocialWorker extends User {
 	
 	void changeItemStatus(long itemId, ItemStatus newStatus)
 	throws ItemNotFoundException, IllegalItemStatusTransitionException {
-    Item item = Item.retrieveItem(itemId);
+    Item item = new Item().retrieveItem(itemId);
     
     final ItemStatus oldStatus = item.getStatus();
     if (!isTransitionLegal(oldStatus, newStatus)) {
