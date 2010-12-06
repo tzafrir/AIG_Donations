@@ -82,4 +82,19 @@ class Project {
 		return null;
   }
 
+	List<Item> getAllItems() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	List<ReceivedItem> getReceivedItems() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	List<Item> getUnreceivedItems() {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
 }
