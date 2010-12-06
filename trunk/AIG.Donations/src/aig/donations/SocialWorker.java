@@ -33,25 +33,25 @@ class SocialWorker extends User {
 	}
 	
 	void renameProject(long projectId, String newName) throws ProjectNotFoundException {
-		new ParameterLegalityChecker().checkProjectsName(newName);
+		new ParameterLegalityChecker().checkProjectName(newName);
 		
 		Project.retrieveProject(projectId).setName(newName);
 	}
 	
 	void changeProjectDescription(long projectId, String newDescription) throws ProjectNotFoundException {
-		new ParameterLegalityChecker().checkProjectsDescription(newDescription);
+		new ParameterLegalityChecker().checkProjectDescription(newDescription);
 		
 		Project.retrieveProject(projectId).setDescription(newDescription);
 	}
 	
 	void changeProjectLocation(long projectId, String newLocation) throws ProjectNotFoundException {
-		new ParameterLegalityChecker().checkProjectsLocation(newLocation);
+		new ParameterLegalityChecker().checkProjectLocation(newLocation);
 		
 		Project.retrieveProject(projectId).setLocation(newLocation);
 	}
 	
 	void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException {
-		new ParameterLegalityChecker().checkProjectsEventTime(newEventTime);
+		new ParameterLegalityChecker().checkProjectEventTime(newEventTime);
 		
 		Project.retrieveProject(projectId).setEventTime(newEventTime);
 	}

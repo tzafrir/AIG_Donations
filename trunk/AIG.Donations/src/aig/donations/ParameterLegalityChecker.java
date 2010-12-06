@@ -26,7 +26,7 @@ public class ParameterLegalityChecker {
 	 * @throws IllegalNameLengthException if the name is of an illegal length
 	 * @throws IllegalNameException if the name is illegal for any other reason
 	 */
-	void checkUsersName(String name)
+	void checkUserName(String name)
 	throws IllegalNameException, IllegalNameLengthException {
 		if (null == name) {
 			throw new IllegalNameException("name is null");
@@ -45,7 +45,7 @@ public class ParameterLegalityChecker {
 	 * @param role - the role to check
 	 * @throws IllegalRoleException if the role is illegal
 	 */
-	void checkRole(Role role) throws IllegalRoleException {
+	void checkUserRole(Role role) throws IllegalRoleException {
 		if (null == role) {
 			throw new IllegalRoleException("role is null");
 		}
@@ -59,7 +59,7 @@ public class ParameterLegalityChecker {
 	 * @throws IllegalUsernameException
 	 *                        if the username is illegal for any other reason
 	 */
-	void checkUsername(String username)
+	void checkUserUsername(String username)
 	throws IllegalUsernameException, IllegalUsernameLengthException {
 		if (null == username) {
 			throw new IllegalUsernameException("username is null");
@@ -73,22 +73,22 @@ public class ParameterLegalityChecker {
 		}
 	}
 
-	void checkProjectsName(String name) {
+	void checkProjectName(String name) {
 	  // TODO Auto-generated method stub
 	  
   }
 
-	void checkProjectsDescription(String description) {
+	void checkProjectDescription(String description) {
 	  // TODO Auto-generated method stub
 	  
   }
 
-	void checkProjectsLocation(String location) {
+	void checkProjectLocation(String location) {
 	  // TODO Auto-generated method stub
 	  
   }
 
-	void checkProjectsEventTime(Date eventTime) {
+	void checkProjectEventTime(Date eventTime) {
 	  // TODO Auto-generated method stub
 	  //TODO: check if null. check if in the past?
   }
@@ -99,6 +99,16 @@ public class ParameterLegalityChecker {
   }
 
 	void checkItemDescription(String itemDescription) {
+	  // TODO Auto-generated method stub
+	  
+  }
+
+	void checkCategoryName(String name) {
+	  // TODO Auto-generated method stub
+	  
+  }
+
+	void checkCategoryDescription(String name) {
 	  // TODO Auto-generated method stub
 	  
   }

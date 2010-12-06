@@ -28,9 +28,9 @@ class User {
 	IllegalUsernameException, IllegalUsernameLengthException {
 		ParameterLegalityChecker checker = new ParameterLegalityChecker();
 		
-		checker.checkUsername(username);
-		checker.checkRole(role);
-		checker.checkUsersName(name);
+		checker.checkUserUsername(username);
+		checker.checkUserRole(role);
+		checker.checkUserName(name);
 
 		this.username = username;
 		this.role = role;

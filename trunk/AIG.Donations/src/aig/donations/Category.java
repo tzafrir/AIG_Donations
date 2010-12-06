@@ -94,4 +94,9 @@ public class Category {
 	  // TODO Auto-generated method stub
 	  return 0;
   }
+
+	void removeCategory() {
+	  // TODO Auto-generated method stub
+	  //TODO: this may also be renamed to removeFromDB, if you think that's better...
+  }
 }
