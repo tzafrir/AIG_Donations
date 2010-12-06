@@ -23,9 +23,9 @@ class User {
 	/* C'tors */
 	
 	User(String username, Role role, String name)
-	throws IllegalNameException, IllegalNameLengthException,
-	IllegalRoleException,
-	IllegalUsernameException, IllegalUsernameLengthException {
+	throws IllegalUserNameException, IllegalUserNameLengthException,
+	IllegalUserRoleException,
+	IllegalUserUsernameException, IllegalUserUsernameLengthException {
 		ParameterLegalityChecker checker = new ParameterLegalityChecker();
 		
 		checker.checkUserUsername(username);

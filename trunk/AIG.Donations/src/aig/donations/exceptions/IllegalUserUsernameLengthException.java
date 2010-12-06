@@ -1,8 +1,8 @@
 package aig.donations.exceptions;
 
-public class IllegalUsernameLengthException extends IllegalUsernameException {
+public class IllegalUserUsernameLengthException extends IllegalUserUsernameException {
 
-	public IllegalUsernameLengthException(int min, int max) {
+	public IllegalUserUsernameLengthException(int min, int max) {
 	  super("username length should be between " + min + " and " + max);
   }
 	
