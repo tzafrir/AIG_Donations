@@ -6,7 +6,10 @@
 
 package aig.donations;
 
+import aig.donations.exceptions.CategoryNotFoundException;
+import aig.donations.exceptions.DatabaseUnavailableException;
+
 public interface CategoryDatabaseGateway {
-  Category fetchCategory(long categoryId);
-  long insertCategory(String name, String description, long parentId);
+  Category retrieveCategory(long categoryId) throws CategoryNotFoundException;
+  long addToDB(String name, String description, long parentId);
 }

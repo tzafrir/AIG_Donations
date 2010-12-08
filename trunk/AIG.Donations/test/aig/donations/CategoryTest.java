@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class CategoryTest extends TestCase {
   @Test
-  public void testPassesParametersInRetrieveWithoutTouching() {
+  public void testPassesParametersInRetrieveWithoutTouching() throws Exception {
     Category category = new Category(new StubCategoryDbGateway());
     try {
       category.retrieveCategory(StubCategoryDbGateway.EXPECTED_INPUT_1);
@@ -34,7 +34,7 @@ public class CategoryTest extends TestCase {
   }
 
   @Test
-  public void testPassesParametersInAddWithoutTouching() {
+  public void testPassesParametersInAddWithoutTouching() throws Exception {
     Category category = new Category(new StubCategoryDbGateway());
     try {
       category.addToDB(StubCategoryDbGateway.EXPECTED_INPUT_3,
@@ -71,7 +71,7 @@ public class CategoryTest extends TestCase {
     static final long EXPECTED_INPUT_2 = 101100;
     static final String EXPECTED_INPUT_3 = "IMOK";
     static final String EXPECTED_INPUT_4 = "2IMOK2";
-    public Category fetchCategory(long categoryId) {
+    public Category retrieveCategory(long categoryId) {
       if (categoryId != EXPECTED_INPUT_1) {
         throw new FailException("Wrong parameter passed to fetchCategory(). Received: " +
             categoryId);
@@ -79,7 +79,7 @@ public class CategoryTest extends TestCase {
       return null;
     }
 
-    public long insertCategory(String name, String description, long parentId) {
+    public long addToDB(String name, String description, long parentId) {
       // Notice: Test ensures that CategoryImpl passes on its parameters, therefore the strings are
       // checked using "!=" and not using hte equals() method, which only checks equality, not
       // identity.

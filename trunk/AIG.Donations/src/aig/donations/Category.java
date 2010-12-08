@@ -7,6 +7,7 @@
 package aig.donations;
 
 import aig.donations.exceptions.CategoryNotFoundException;
+import aig.donations.exceptions.DatabaseUnavailableException;
 
 public class Category {
   long id;
@@ -74,8 +75,9 @@ public class Category {
    * @throws CategoryNotFoundException when a Category with ID categoryId is not found in the
    * database.
    */
-  Category retrieveCategory(long categoryId) throws CategoryNotFoundException {
-    return gateway.fetchCategory(categoryId);
+  Category retrieveCategory(long categoryId)
+      throws CategoryNotFoundException, DatabaseUnavailableException {
+    return gateway.retrieveCategory(categoryId);
   }
 
   /**
@@ -86,8 +88,8 @@ public class Category {
    * @param parentId The ID of the category's parent.
    * @return The ID of the new category.
    */
-  long addToDB(String name, String description, long parentId) {
-    return gateway.insertCategory(name, description, parentId);
+  long addToDB(String name, String description, long parentId) throws DatabaseUnavailableException {
+    return gateway.addToDB(name, description, parentId);
   }
 
 	long getId() {
