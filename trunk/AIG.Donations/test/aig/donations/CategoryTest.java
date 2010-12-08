@@ -105,5 +105,6 @@ public class CategoryTest extends TestCase {
     public FailException(String message) {
       super(message);
     }
+    private static final long serialVersionUID = 1;
   }
 }
