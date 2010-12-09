@@ -37,7 +37,7 @@ class Project {
 
 	void addCategory(long categoryId) {
 	  // TODO Auto-generated method stub
-	  
+	  // TODO: if (hasCategory(categoryId)) {return;} --> to make adding a whole sub-tree (with add all) not throw a million times
   }
 
 	long getId() {
@@ -50,7 +50,7 @@ class Project {
 	  return false;
   }
 
-	static long addToDB(String name, String description, String location, Date eventTime) {
+	static long addToDB(String name, String description, String location, Date eventTime, String socialWorkerUsername) {
 	  // TODO Auto-generated method stub
 		//TODO: should return the id generated for this project
 	  return 0;
@@ -79,6 +79,8 @@ class Project {
 	static String removeFirstFromWaitingQueue(long projectId, long categoryId) throws EmptyWaitingListException {
 	  // TODO Auto-generated method stub
 	  //TODO: return the username of the removed user
+	  //TODO: this method should do the tree traversing to find the most suitable user (the first one that wanted this project+category, or supercategories),
+	  // since it is done much easier and more efficient in an SQL query
 		return null;
   }
 
@@ -95,6 +97,11 @@ class Project {
 	List<Item> getUnreceivedItems() {
 	  // TODO Auto-generated method stub
 	  return null;
+  }
+
+  String getSocialWorkerUsername() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
