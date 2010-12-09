@@ -17,11 +17,11 @@ class SocialWorker extends User {
   }
   
   long createProject(String name, String description, String location, Date eventTime) {
-    // TODO: stub
-    // TODO: allow calling this if eventTime is in the past? (document it to
-    // show that this is intentional)
-    // TODO: do we need to make sure project doesn't exist yet? i think this
-    // quad can be replicated... (meaning, 2 projects with the same name, etc.)
+    ParameterLegalityChecker checker = new ParameterLegalityChecker();
+    checker.checkProjectName(name);
+    checker.checkProjectDescription(description);
+    checker.checkProjectLocation(location);
+    checker.checkProjectEventTime(eventTime);
     return Project.addToDB(name, description, location, eventTime);
   }
   
@@ -79,6 +79,7 @@ class SocialWorker extends User {
     
     item.setProject(destinationProjectId);
     item.setCategory(destinationCategoryId);
+    //TODO- does destinationCategoryId exist in project? need to check?
   }
   
   void changeItemStatus(long itemId, ItemStatus newStatus) throws ItemNotFoundException,
