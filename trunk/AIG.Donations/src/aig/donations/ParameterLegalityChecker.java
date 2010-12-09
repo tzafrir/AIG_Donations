@@ -6,6 +6,7 @@ import aig.donations.exceptions.IllegalCategoryDescriptionException;
 import aig.donations.exceptions.IllegalCategoryDescriptionLengthException;
 import aig.donations.exceptions.IllegalCategoryNameException;
 import aig.donations.exceptions.IllegalCategoryNameLengthException;
+import aig.donations.exceptions.IllegalItemConditionException;
 import aig.donations.exceptions.IllegalItemDescriptionException;
 import aig.donations.exceptions.IllegalItemDescriptionLengthException;
 import aig.donations.exceptions.IllegalItemNameException;
@@ -26,14 +27,14 @@ import aig.donations.exceptions.IllegalUserUsernameLengthException;
 public class ParameterLegalityChecker {
   
   // length limitations on the users' fields
-  protected final int    MAX_USERNAME_LENGTH    = 20;
-  protected final int    MIN_USERNAME_LENGTH    = 1;
-  protected final int    MAX_USERS_NAME_LENGTH  = 50;
-  protected final int    MIN_USERS_NAME_LENGTH  = 2;
+  protected final int    maxUserUsernameLength  = 20;
+  protected final int    minUserUsernameLength  = 1;
+  protected final int    maxUserNameLength      = 50;
+  protected final int    minUserNameLength      = 2;
   
   // structural limitations on the users' fields
-  protected final String LEGAL_USERNAME_REGEX   = "[a-zA-Z_0-9]*";
-  protected final String LEGAL_USERS_NAME_REGEX = "[a-zA-Z ]*";
+  protected final String legalUserUsernameRegex = "[a-zA-Z_0-9]*";
+  protected final String legalUserNameRegex     = "[a-zA-Z ]*";
   
   /**
    * Checks legality of a user's real name.
@@ -49,10 +50,10 @@ public class ParameterLegalityChecker {
     if (null == name) {
       throw new IllegalUserNameException("name is null");
     }
-    if (name.length() < MIN_USERS_NAME_LENGTH || name.length() > MAX_USERS_NAME_LENGTH) {
-      throw new IllegalUserNameLengthException(MIN_USERS_NAME_LENGTH, MAX_USERS_NAME_LENGTH);
+    if (name.length() < minUserNameLength || name.length() > maxUserNameLength) {
+      throw new IllegalUserNameLengthException(minUserNameLength, maxUserNameLength);
     }
-    if (!name.matches(LEGAL_USERS_NAME_REGEX)) {
+    if (!name.matches(legalUserNameRegex)) {
       throw new IllegalUserNameException("name has illegal characters");
     }
   }
@@ -86,10 +87,10 @@ public class ParameterLegalityChecker {
     if (null == username) {
       throw new IllegalUserUsernameException("username is null");
     }
-    if (username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH) {
-      throw new IllegalUserUsernameLengthException(MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH);
+    if (username.length() < minUserUsernameLength || username.length() > maxUserUsernameLength) {
+      throw new IllegalUserUsernameLengthException(minUserUsernameLength, maxUserUsernameLength);
     }
-    if (!username.matches(LEGAL_USERNAME_REGEX)) {
+    if (!username.matches(legalUserUsernameRegex)) {
       throw new IllegalUserUsernameException("username has illegal characters");
     }
   }
@@ -113,8 +114,12 @@ public class ParameterLegalityChecker {
   }
   
   void checkProjectEventTime(Date eventTime) throws IllegalProjectEventTimeException {
-    // TODO Auto-generated method stub
-    // TODO: check if null. check if in the past?
+    if (null == eventTime) {
+      throw new IllegalProjectEventTimeException("Project event time is null");
+    }
+    if (eventTime.before(new Date())) {
+      throw new IllegalProjectEventTimeException("Project event time is in the past");
+    }
   }
   
   void checkItemName(String itemName) throws IllegalItemNameException,
@@ -138,6 +143,13 @@ public class ParameterLegalityChecker {
   void checkCategoryDescription(String name) throws IllegalCategoryDescriptionException,
       IllegalCategoryDescriptionLengthException {
     // TODO Auto-generated method stub
+    
+  }
+  
+  void checkItemCondition(ItemCondition itemCondition) throws IllegalItemConditionException {
+    if (null == itemCondition) {
+      throw new IllegalItemConditionException("Item condition is null");
+    }
     
   }
   

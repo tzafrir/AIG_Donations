@@ -119,9 +119,7 @@ class SocialWorker extends User {
     case DONATED:
       return (newStatus == ItemStatus.PENDING);
     case PENDING:
-      return (newStatus == ItemStatus.TRANSFERRED);
-    case TRANSFERRED:
-      return (newStatus == ItemStatus.PENDING);// TODO: keep??
+      return (newStatus == ItemStatus.RETURNED);
     case MATCHED:
       return (newStatus == ItemStatus.RECEIVED);
     }

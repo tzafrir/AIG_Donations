@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import aig.donations.exceptions.CategoryDoesNotExistInProjectException;
+import aig.donations.exceptions.IllegalItemConditionException;
 import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
@@ -13,9 +14,9 @@ class Donor extends User {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  void donateItem(long projectId, long categoryId, String itemName, String itemDescription)
-      throws ProjectNotFoundException, ProjectClosedException,
-      CategoryDoesNotExistInProjectException {
+  void donateItem(long projectId, long categoryId, String itemName, String itemDescription,
+      ItemCondition itemCondition) throws ProjectNotFoundException, ProjectClosedException,
+      CategoryDoesNotExistInProjectException, IllegalItemConditionException {
     
     Project project = Project.retrieveProject(projectId);
     if (project.isClosed()) {
@@ -28,9 +29,10 @@ class Donor extends User {
     ParameterLegalityChecker checker = new ParameterLegalityChecker();
     checker.checkItemName(itemName);
     checker.checkItemDescription(itemDescription);
+    checker.checkItemCondition(itemCondition);
     
     Item.addToDB(itemName, itemDescription, projectId, categoryId, ItemStatus.DONATED, new Date(),
-        getUsername());
+        getUsername(), itemCondition);
   }
   
   List<Item> getDonatedItems() {

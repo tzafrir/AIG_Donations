@@ -14,36 +14,51 @@ class SystemAdmin extends User {
     checker.checkCategoryDescription(name);
     
     // make sure parent category exists
-    Category.retrieveCategory(parentId);
-    
-    return Category.addToDB(name, description, parentId);
+    /*
+     * Category.retrieveCategory(parentId);
+     * 
+     * return Category.addToDB(name, description, parentId);
+     */
+    // TODO: temporarily removed, so code will compile, until tzafrir will
+    // upload his update
+    return 0; // TODO: "stub" return
   }
   
   void renameCategory(long id, String newName) {
     // TODO: throws...
     new ParameterLegalityChecker().checkCategoryName(newName);
     
-    Category.retrieveCategory(id).setName(newName);
+    // Category.retrieveCategory(id).setName(newName);
+    // TODO: temporarily removed, so code will compile, until tzafrir will
+    // upload his update
   }
   
   void moveCategory(long id, long newParent) {
     // TODO: throws...
     // make sure parent category exists
-    Category.retrieveCategory(newParent);
-    
-    Category.retrieveCategory(id).setParentId(newParent);
+    /*
+     * Category.retrieveCategory(newParent);
+     * 
+     * Category.retrieveCategory(id).setParentId(newParent);
+     */
+    // TODO: temporarily removed, so code will compile, until tzafrir will
+    // upload his update
   }
   
   void changeCategoryDescription(long id, String newDescription) {
     // TODO: throws...
     new ParameterLegalityChecker().checkCategoryDescription(newDescription);
     
-    Category.retrieveCategory(id).setDescription(newDescription);
+    // Category.retrieveCategory(id).setDescription(newDescription);
+    // TODO: temporarily removed, so code will compile, until tzafrir will
+    // upload his update
   }
   
   void removeCategory(long id) {
     // TODO: throws...
-    Category.retrieveCategory(id).removeCategory();
+    // Category.retrieveCategory(id).removeCategory();
+    // TODO: temporarily removed, so code will compile, until tzafrir will
+    // upload his update
   }
   
   void removeUser(String username) {

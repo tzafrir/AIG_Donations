@@ -1,34 +1,34 @@
 package aig.donations;
 
-enum ItemStatus {
-  DONATED {
+enum ItemCondition {
+  EXCELLENT {
     @Override
     public String toString() {
-      return "Donated";
+      return "Excellent";
     }
   },
-  PENDING {
+  GOOD {
     @Override
     public String toString() {
-      return "Pending";
+      return "Good";
     }
   },
-  RECEIVED {
+  MEDIUM {
     @Override
     public String toString() {
-      return "Received";
+      return "Medium";
     }
   },
-  RETURNED {
+  BAD {
     @Override
     public String toString() {
-      return "Returned";
+      return "Bad";
     }
   },
-  MATCHED {
+  AWFUL {
     @Override
     public String toString() {
-      return "Matched";
+      return "Awful";
     }
   }
 }
