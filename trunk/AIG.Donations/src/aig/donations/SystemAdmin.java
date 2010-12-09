@@ -8,7 +8,6 @@ class SystemAdmin extends User {
   
   long createCategory(String name, String description, long parentId) {
     // TODO: throws...
-    ParameterLegalityChecker checker = new ParameterLegalityChecker();
     
     checker.checkCategoryName(name);
     checker.checkCategoryDescription(name);
@@ -26,7 +25,7 @@ class SystemAdmin extends User {
   
   void renameCategory(long id, String newName) {
     // TODO: throws...
-    new ParameterLegalityChecker().checkCategoryName(newName);
+    checker.checkCategoryName(newName);
     
     // Category.retrieveCategory(id).setName(newName);
     // TODO: temporarily removed, so code will compile, until tzafrir will
@@ -47,7 +46,7 @@ class SystemAdmin extends User {
   
   void changeCategoryDescription(long id, String newDescription) {
     // TODO: throws...
-    new ParameterLegalityChecker().checkCategoryDescription(newDescription);
+    checker.checkCategoryDescription(newDescription);
     
     // Category.retrieveCategory(id).setDescription(newDescription);
     // TODO: temporarily removed, so code will compile, until tzafrir will

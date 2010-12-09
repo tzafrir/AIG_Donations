@@ -1,8 +1,8 @@
 package aig.donations.exceptions;
 
-public class ItemNotPendingException extends Exception {
+public class CategoryIsTopLevelException extends IllegalArgumentException {
   
-  public ItemNotPendingException(String message) {
+  public CategoryIsTopLevelException(String message) {
     super(message);
   }
   

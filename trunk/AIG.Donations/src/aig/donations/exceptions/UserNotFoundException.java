@@ -1,8 +1,8 @@
 package aig.donations.exceptions;
 
-public class ItemNotPendingException extends Exception {
+public class UserNotFoundException extends ElementNotFoundException {
   
-  public ItemNotPendingException(String message) {
+  public UserNotFoundException(String message) {
     super(message);
   }
   

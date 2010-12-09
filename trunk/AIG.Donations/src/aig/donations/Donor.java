@@ -14,7 +14,7 @@ class Donor extends User {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  void donateItem(long projectId, long categoryId, String itemName, String itemDescription,
+  long donateItem(long projectId, long categoryId, String itemName, String itemDescription,
       ItemCondition itemCondition) throws ProjectNotFoundException, ProjectClosedException,
       CategoryDoesNotExistInProjectException, IllegalItemConditionException {
     
@@ -26,13 +26,14 @@ class Donor extends User {
     if (!project.hasCategory(categoryId)) {
       throw new CategoryDoesNotExistInProjectException("No such category in the project");
     }
-    ParameterLegalityChecker checker = new ParameterLegalityChecker();
+    
+    checker.checkCategoryIsntTopLevel(categoryId);
     checker.checkItemName(itemName);
     checker.checkItemDescription(itemDescription);
     checker.checkItemCondition(itemCondition);
     
-    Item.addToDB(itemName, itemDescription, projectId, categoryId, ItemStatus.DONATED, new Date(),
-        getUsername(), itemCondition);
+    return Item.addToDB(itemName, itemDescription, projectId, categoryId, ItemStatus.DONATED,
+        new Date(), getUsername(), itemCondition);
   }
   
   List<Item> getDonatedItems() {

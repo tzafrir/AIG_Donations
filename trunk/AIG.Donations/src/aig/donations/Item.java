@@ -36,9 +36,11 @@ class Item {
     return null;
   }
   
-  static void addToDB(String name, String description, long projectId, long categoryId,
+  static long addToDB(String name, String description, long projectId, long categoryId,
       ItemStatus status, Date donationTimestamp, String donorUsername, ItemCondition itemCondition) {
+    return 0;
     // TODO Auto-generated method stub
+    // TODO: return new item id
     
   }
   

@@ -14,18 +14,20 @@ import aig.donations.exceptions.*;
  */
 class User {
   // the username, used for identification in the system
-  private String username;
+  private String                     username;
   // the role of the user, out of the available roles
-  private Role   role;
+  private Role                       role;
   // the real name of the user
-  private String name;
+  private String                     name;
+  // a checker, so we don't have to dynamically allocate it on every method (and
+  // to allow stubbing)
+  protected ParameterLegalityChecker checker = new ParameterLegalityChecker();
   
   /* C'tors */
 
   User(String username, Role role, String name) throws IllegalUserNameException,
       IllegalUserNameLengthException, IllegalUserRoleException, IllegalUserUsernameException,
       IllegalUserUsernameLengthException {
-    ParameterLegalityChecker checker = new ParameterLegalityChecker();
     
     checker.checkUserUsername(username);
     checker.checkUserRole(role);

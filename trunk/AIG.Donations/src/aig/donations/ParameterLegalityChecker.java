@@ -11,6 +11,8 @@ import aig.donations.exceptions.IllegalItemDescriptionException;
 import aig.donations.exceptions.IllegalItemDescriptionLengthException;
 import aig.donations.exceptions.IllegalItemNameException;
 import aig.donations.exceptions.IllegalItemNameLengthException;
+import aig.donations.exceptions.IllegalPasswordException;
+import aig.donations.exceptions.IllegalPasswordLengthException;
 import aig.donations.exceptions.IllegalProjectDescriptionException;
 import aig.donations.exceptions.IllegalProjectDescriptionLengthException;
 import aig.donations.exceptions.IllegalProjectEventTimeException;
@@ -23,6 +25,8 @@ import aig.donations.exceptions.IllegalUserNameLengthException;
 import aig.donations.exceptions.IllegalUserRoleException;
 import aig.donations.exceptions.IllegalUserUsernameException;
 import aig.donations.exceptions.IllegalUserUsernameLengthException;
+import aig.donations.exceptions.CategoryIsTopLevelException;
+import aig.donations.exceptions.IncorrectSocialWorkerException;
 
 public class ParameterLegalityChecker {
   
@@ -31,6 +35,8 @@ public class ParameterLegalityChecker {
   protected final int    minUserUsernameLength  = 1;
   protected final int    maxUserNameLength      = 50;
   protected final int    minUserNameLength      = 2;
+  protected final int    minPasswordLength      = 6;
+  protected final int    maxPasswordLength      = 20;
   
   // structural limitations on the users' fields
   protected final String legalUserUsernameRegex = "[a-zA-Z_0-9]*";
@@ -95,6 +101,18 @@ public class ParameterLegalityChecker {
     }
   }
   
+  void checkPassword(String password) throws IllegalPasswordException,
+      IllegalPasswordLengthException {
+    if (null == password) {
+      throw new IllegalPasswordException("password is null");
+    }
+    
+    if (password.length() < minPasswordLength || password.length() > maxPasswordLength) {
+      throw new IllegalPasswordLengthException(minPasswordLength, maxPasswordLength);
+    }
+    
+  }
+  
   void checkProjectName(String name) throws IllegalProjectNameException,
       IllegalProjectNameLengthException {
     // TODO Auto-generated method stub
@@ -153,4 +171,21 @@ public class ParameterLegalityChecker {
     
   }
   
+  void checkCategoryIsntTopLevel(long categoryId) {
+    /*
+     * if (-1 == categoryId || -1 ==
+     * Category.retrieveCategory(categoryId).getParentId()) { throw new
+     * categoryIsTopLevelException("The category is a top level category"); }
+     */
+    // TODO: fix that code for static/non-static stuff...
+    
+  }
+  
+  void checkThatProjectIsOurs(Project project, String username, Role role)
+      throws IncorrectSocialWorkerException {
+    if (!username.equals(project.getSocialWorkerUsername()) && Role.SYSTEM_ADMIN != role) {
+      throw new IncorrectSocialWorkerException("The project does not belong to this social worker");
+    }
+    
+  }
 }

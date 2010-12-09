@@ -19,7 +19,6 @@ class SocialWorker extends User {
   }
   
   long createProject(String name, String description, String location, Date eventTime) {
-    ParameterLegalityChecker checker = new ParameterLegalityChecker();
     checker.checkProjectName(name);
     checker.checkProjectDescription(description);
     checker.checkProjectLocation(location);
@@ -27,10 +26,11 @@ class SocialWorker extends User {
     return Project.addToDB(name, description, location, eventTime, getUsername());
   }
   
-  void closeProject(long projectId) throws ProjectNotFoundException, ProjectAlreadyClosedException, IncorrectSocialWorkerException {
+  void closeProject(long projectId) throws ProjectNotFoundException, ProjectAlreadyClosedException,
+      IncorrectSocialWorkerException {
     Project project = Project.retrieveProject(projectId);
     
-    checkThatProjectIsOurs(project);
+    checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
     if (project.isClosed()) {
       throw new ProjectAlreadyClosedException("can't close a project that is already closed");
@@ -39,39 +39,41 @@ class SocialWorker extends User {
     project.setEventTime(new Date());
   }
   
-  void renameProject(long projectId, String newName) throws ProjectNotFoundException, IncorrectSocialWorkerException {
-    new ParameterLegalityChecker().checkProjectName(newName);
+  void renameProject(long projectId, String newName) throws ProjectNotFoundException,
+      IncorrectSocialWorkerException {
+    checker.checkProjectName(newName);
     
     Project project = Project.retrieveProject(projectId);
     
-    checkThatProjectIsOurs(project);
+    checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
     project.setName(newName);
   }
   
   void changeProjectDescription(long projectId, String newDescription)
       throws ProjectNotFoundException, IncorrectSocialWorkerException {
-    new ParameterLegalityChecker().checkProjectDescription(newDescription);
+    checker.checkProjectDescription(newDescription);
     
     Project project = Project.retrieveProject(projectId);
     
-    checkThatProjectIsOurs(project);
+    checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
     project.setDescription(newDescription);
   }
   
   void changeProjectLocation(long projectId, String newLocation) throws ProjectNotFoundException {
-    new ParameterLegalityChecker().checkProjectLocation(newLocation);
+    checker.checkProjectLocation(newLocation);
     
     Project.retrieveProject(projectId).setLocation(newLocation);
   }
   
-  void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException, IncorrectSocialWorkerException {
-    new ParameterLegalityChecker().checkProjectEventTime(newEventTime);
-
+  void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException,
+      IncorrectSocialWorkerException {
+    checker.checkProjectEventTime(newEventTime);
+    
     Project project = Project.retrieveProject(projectId);
     
-    checkThatProjectIsOurs(project);
+    checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
     project.setEventTime(newEventTime);
   }
@@ -80,19 +82,20 @@ class SocialWorker extends User {
       CategoryNotFoundException, IncorrectSocialWorkerException {
     // make sure category exists:
     new Category().retrieveCategory(categoryId);
-
+    
     Project project = Project.retrieveProject(projectId);
     
-    checkThatProjectIsOurs(project);
+    checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
     project.addCategory(categoryId);
   }
   
   void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
-      throws ItemNotFoundException, ProjectNotFoundException, ProjectClosedException, CategoryNotFoundException, IncorrectSocialWorkerException, ItemNotPendingException {
+      throws ItemNotFoundException, ProjectNotFoundException, ProjectClosedException,
+      CategoryNotFoundException, IncorrectSocialWorkerException, ItemNotPendingException {
     Item item = Item.retrieveItem(itemId);
     
-    checkThatProjectIsOurs(item.getProject());
+    checker.checkThatProjectIsOurs(item.getProject(), getUsername(), getRole());
     
     if (ItemStatus.PENDING != item.getStatus()) {
       throw new ItemNotPendingException("Can't move an item if it's not in stock");
@@ -111,7 +114,8 @@ class SocialWorker extends User {
     item.setCategory(destinationCategoryId);
   }
   
-  void returnItemToDonor(long itemId) throws ItemNotFoundException, IncorrectSocialWorkerException, IllegalItemStatusTransitionException {
+  void returnItemToDonor(long itemId) throws ItemNotFoundException, IncorrectSocialWorkerException,
+      IllegalItemStatusTransitionException {
     changeItemStatus(itemId, ItemStatus.RETURNED);
   }
   
@@ -119,19 +123,19 @@ class SocialWorker extends User {
       IllegalItemStatusTransitionException, IncorrectSocialWorkerException {
     Item item = Item.retrieveItem(itemId);
     
-    checkThatProjectIsOurs(item.getProject());
+    checker.checkThatProjectIsOurs(item.getProject(), getUsername(), getRole());
     
     final ItemStatus oldStatus = item.getStatus();
-    //check that transition is legal
+    // check that transition is legal
     if (!isTransitionLegal(oldStatus, newStatus)) {
       throw new IllegalItemStatusTransitionException(getRole().toString(), oldStatus.toString(),
           newStatus.toString());
     }
     
-    //change the status
+    // change the status
     item.setStatus(newStatus);
     if (ItemStatus.PENDING == newStatus) {
-      //if there's anyone waiting for this item, match them
+      // if there's anyone waiting for this item, match them
       String waitingUser = null;
       try {
         waitingUser = Project.removeFirstFromWaitingQueue(item.getProject().getId(), item
@@ -140,9 +144,11 @@ class SocialWorker extends User {
         // no one is waiting for this category
         return;
       }
+      // we just got an item to the stock, and there's someone waiting for it -
+      // match them.
       matchItem(item, waitingUser);
     } else if (ItemStatus.RECEIVED == newStatus) {
-      //mark that it was received
+      // mark that it was received
       ReceivedItem receivedItem = new ReceivedItem(item);
       receivedItem.setReceptionTimestamp(new Date());
     }
@@ -167,10 +173,4 @@ class SocialWorker extends User {
     return false;
   }
   
-  private void checkThatProjectIsOurs(Project project) throws IncorrectSocialWorkerException {
-    if (!getUsername().equals(project.getSocialWorkerUsername()) && Role.SYSTEM_ADMIN != getRole()) {
-      throw new IncorrectSocialWorkerException("The project does not belong to this social worker");
-    }
-    
-  }
 }

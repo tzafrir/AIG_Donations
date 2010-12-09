@@ -29,9 +29,8 @@ class Receiver extends User {
       throw new CategoryDoesNotExistInProjectException("No such category in the project");
     }
     
-    // TODO: can a user request twice from the same category?
+    checker.checkCategoryIsntTopLevel(categoryId);
     
-    // TODO: check if category is a leaf in the categories forest?
     Item itemToBeReceived = null;
     try {
       itemToBeReceived = project.getPendingItem(categoryId);
@@ -47,7 +46,15 @@ class Receiver extends User {
   }
   
   List<ReceivedItem> getReceivedItems() {
-    return ReceivedItem.retrieveItemsByReceiver(getUsername());
+    return ReceivedItem.retrieveReceivedItemsByReceiver(getUsername());
+  }
+  
+  List<ReceivedItem> getMatchedItems() {
+    return ReceivedItem.retrieveMatchedItemsByReceiver(getUsername());
+  }
+  
+  List<Pair<Project, Category>> getWaitingData() {
+    return ReceivedItem.retrieveWaitingDataByReceiver(getUsername());
   }
   
   void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
