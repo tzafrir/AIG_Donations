@@ -12,92 +12,93 @@ import aig.donations.exceptions.UserMismatchException;
 import aig.donations.exceptions.UserNotInWaitingListException;
 
 class Receiver extends User {
-
-	Receiver(User user) {
-	  super(user.getUsername(), user.getRole(), user.getName());
+  
+  Receiver(User user) {
+    super(user.getUsername(), user.getRole(), user.getName());
   }
-
-	void requestItem(long projectId, long categoryId)
-	throws ProjectClosedException, ProjectNotFoundException, CategoryDoesNotExistInProjectException,
-	IllegalItemStatusTransitionException {
-		Project project = Project.retrieveProject(projectId);
-		if(project.isClosed()) {
-			//also checks that the project exists
-			throw new ProjectClosedException("Can't request from a closed project");
-		}
-		if(!project.hasCategory(categoryId)) {
-			throw new CategoryDoesNotExistInProjectException("No such category in the project");
-		}
-		
-		//TODO: can a user request twice from the same category?
-		
-		//TODO: check if category is a leaf in the categories forest?
-		Item itemToBeReceived = null;
-		try {
-			itemToBeReceived = project.getPendingItem(categoryId);
-    } catch (NoPendingItemsException e) {
-	    //no item waiting - add user to waiting queue
-    	Project.addToWaitingQueue(projectId, categoryId, getUsername());
-    	return;
+  
+  void requestItem(long projectId, long categoryId) throws ProjectClosedException,
+      ProjectNotFoundException, CategoryDoesNotExistInProjectException,
+      IllegalItemStatusTransitionException {
+    Project project = Project.retrieveProject(projectId);
+    if (project.isClosed()) {
+      // also checks that the project exists
+      throw new ProjectClosedException("Can't request from a closed project");
     }
-		
-    //we found an item. Match it:
-		changeItemStatus(new ReceivedItem(itemToBeReceived), ItemStatus.MATCHED);
-		
-	}
-	
-	List<ReceivedItem> getReceivedItems() {
-		return ReceivedItem.retrieveItemsByReceiver(getUsername());
-	}
-	
-	void regretItemRequest(long itemId)
-	throws ItemNotMatchedException, UserMismatchException, IllegalItemStatusTransitionException {
-		
-		ReceivedItem item = ReceivedItem.retrieveItem(itemId);
-		
-		if (getUsername() != item.getReceiverUsername()) {
-			throw new UserMismatchException("Trying to regret a request for an item that doesn't " +
-					                            "belong to the user");
-		}
-		if (item.getStatus() != ItemStatus.MATCHED) {
-			throw new ItemNotMatchedException("Can't regret an item that isn't matched");
-		}
-		
-		changeItemStatus(item, ItemStatus.PENDING);
-	}
-
-	void regretCategoryRequest(long projectId, long categoryId)
-	throws ProjectNotFoundException, ProjectClosedException, CategoryDoesNotExistInProjectException, UserNotInWaitingListException {
-		
-		//this method is for users who are waiting in waiting queues (items weren't matched)
-		//TODO: add previous line to javadoc
-		Project project = Project.retrieveProject(projectId);
-		if (project.isClosed()) {
-			//also checks that the project exists
-			throw new ProjectClosedException("Can't regret from a closed project");
-		}
-		if (!project.hasCategory(categoryId)) {
-			throw new CategoryDoesNotExistInProjectException("No such category in the project");
-		}
-		
-		Project.removeUserFromWaitingQueue(projectId, categoryId, getUsername());
-		
-	}
-	
-	private void changeItemStatus(ReceivedItem item, ItemStatus newStatus)
-	throws IllegalItemStatusTransitionException {
+    if (!project.hasCategory(categoryId)) {
+      throw new CategoryDoesNotExistInProjectException("No such category in the project");
+    }
+    
+    // TODO: can a user request twice from the same category?
+    
+    // TODO: check if category is a leaf in the categories forest?
+    Item itemToBeReceived = null;
+    try {
+      itemToBeReceived = project.getPendingItem(categoryId);
+    } catch (NoPendingItemsException e) {
+      // no item waiting - add user to waiting queue
+      Project.addToWaitingQueue(projectId, categoryId, getUsername());
+      return;
+    }
+    
+    // we found an item. Match it:
+    changeItemStatus(new ReceivedItem(itemToBeReceived), ItemStatus.MATCHED);
+    
+  }
+  
+  List<ReceivedItem> getReceivedItems() {
+    return ReceivedItem.retrieveItemsByReceiver(getUsername());
+  }
+  
+  void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
+      IllegalItemStatusTransitionException {
+    
+    ReceivedItem item = ReceivedItem.retrieveItem(itemId);
+    
+    if (getUsername() != item.getReceiverUsername()) {
+      throw new UserMismatchException("Trying to regret a request for an item that doesn't "
+          + "belong to the user");
+    }
+    if (item.getStatus() != ItemStatus.MATCHED) {
+      throw new ItemNotMatchedException("Can't regret an item that isn't matched");
+    }
+    
+    changeItemStatus(item, ItemStatus.PENDING);
+  }
+  
+  void regretCategoryRequest(long projectId, long categoryId) throws ProjectNotFoundException,
+      ProjectClosedException, CategoryDoesNotExistInProjectException, UserNotInWaitingListException {
+    
+    // this method is for users who are waiting in waiting queues (items weren't
+    // matched)
+    // TODO: add previous line to javadoc
+    Project project = Project.retrieveProject(projectId);
+    if (project.isClosed()) {
+      // also checks that the project exists
+      throw new ProjectClosedException("Can't regret from a closed project");
+    }
+    if (!project.hasCategory(categoryId)) {
+      throw new CategoryDoesNotExistInProjectException("No such category in the project");
+    }
+    
+    Project.removeUserFromWaitingQueue(projectId, categoryId, getUsername());
+    
+  }
+  
+  private void changeItemStatus(ReceivedItem item, ItemStatus newStatus)
+      throws IllegalItemStatusTransitionException {
     ItemStatus oldStatus = item.getStatus();
     if (ItemStatus.PENDING == oldStatus && ItemStatus.MATCHED == newStatus) {
-    	//PENDING --> MATCHED
-    	item.setReceiverUsername(getUsername());
+      // PENDING --> MATCHED
+      item.setReceiverUsername(getUsername());
     } else if (ItemStatus.MATCHED == oldStatus && ItemStatus.PENDING == newStatus) {
-      //MATCHED --> PENDING
-    	item.setReceiverUsername(null);
+      // MATCHED --> PENDING
+      item.setReceiverUsername(null);
     } else {
-    	throw new IllegalItemStatusTransitionException(getRole().toString(), oldStatus.toString(),
-    			                                  newStatus.toString());
+      throw new IllegalItemStatusTransitionException(getRole().toString(), oldStatus.toString(),
+          newStatus.toString());
     }
-		    
+    
     item.setStatus(newStatus);
-	}
+  }
 }

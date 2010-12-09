@@ -2,27 +2,27 @@ package aig.donations;
 
 enum Role {
   SYSTEM_ADMIN {
-  	@Override
+    @Override
     public String toString() {
-  	  return "System admin";
+      return "System admin";
     }
   },
   DONOR {
-  	@Override
+    @Override
     public String toString() {
-  	  return "Donor";
+      return "Donor";
     }
   },
   RECEIVER {
-  	@Override
+    @Override
     public String toString() {
-  	  return "Receiver";
+      return "Receiver";
     }
   },
   SOCIAL_WORKER {
-  	@Override
+    @Override
     public String toString() {
-  	  return "Social worker";
+      return "Social worker";
     }
   }
 }
