@@ -7,6 +7,7 @@ import aig.donations.exceptions.EmptyWaitingListException;
 import aig.donations.exceptions.IllegalItemStatusTransitionException;
 import aig.donations.exceptions.ItemNotFoundException;
 import aig.donations.exceptions.ProjectAlreadyClosedException;
+import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
 class SocialWorker extends User {
@@ -68,12 +69,13 @@ class SocialWorker extends User {
   }
   
   void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
-      throws ItemNotFoundException {
+      throws ItemNotFoundException, ProjectNotFoundException, ProjectClosedException {
     Item item = Item.retrieveItem(itemId);
     
-    // TODO: do we need to check if the destination project is closed? I don't
-    // think so... since this operation can be done retroactively by the social
-    // worker, to describe the past... --> document our decision
+    Project destinationProject = Project.retrieveProject(destinationProjectId);
+    if (destinationProject.isClosed()) {
+      throw new ProjectClosedException("Trying to move an item to a closed project");
+    }
     
     item.setProject(destinationProjectId);
     item.setCategory(destinationCategoryId);
