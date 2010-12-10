@@ -2,6 +2,10 @@ package aig.donations.exceptions;
 
 public class IllegalItemDescriptionLengthException extends IllegalItemDescriptionException {
   
+  public IllegalItemDescriptionLengthException(int min, int max) {
+    super("item description should be between " + min + " and " + max);
+  }
+
   /**
    * 
    */
