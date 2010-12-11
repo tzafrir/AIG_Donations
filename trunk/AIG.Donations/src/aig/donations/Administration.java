@@ -11,9 +11,9 @@ import aig.donations.exceptions.IllegalUserUsernameLengthException;
 import aig.donations.exceptions.UserAlreadyExistsException;
 import aig.donations.exceptions.UserNotFoundException;
 
-class Administration {
+public class Administration {
   
-  static void signUp(String username, Role role, String name, String password)
+  public static void signUp(String username, Role role, String name, String password)
       throws IllegalUserNameException, IllegalUserNameLengthException, IllegalUserRoleException,
       IllegalUserUsernameException, IllegalUserUsernameLengthException, IllegalPasswordException,
       IllegalPasswordLengthException, UserAlreadyExistsException {
@@ -25,7 +25,7 @@ class Administration {
     UserDBHandler.addToDB(username, role, name, password);
   }
   
-  static User login(String username, String password) throws BadLoginException {
+  public static User login(String username, String password) throws BadLoginException {
     String realPassword = null;
     try {
       realPassword = UserDBHandler.retrievePassword(username);

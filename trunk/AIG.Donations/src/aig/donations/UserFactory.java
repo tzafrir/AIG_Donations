@@ -8,7 +8,7 @@ import aig.donations.exceptions.IncompatiblePrivilegesException;
  * of the subclass.
  * 
  */
-class UserFactory {
+public class UserFactory {
   
   /**
    * Converts the user to a SocialWorker
@@ -19,7 +19,7 @@ class UserFactory {
    * @throws IncompatiblePrivilegesException
    *           if the user isn't of an appropriate role
    */
-  static SocialWorker createSocialWorker(User user) throws IncompatiblePrivilegesException {
+  public static SocialWorker createSocialWorker(User user) throws IncompatiblePrivilegesException {
     if (Role.SOCIAL_WORKER.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
       return new SocialWorker(user);
     }
@@ -35,7 +35,7 @@ class UserFactory {
    * @throws IncompatiblePrivilegesException
    *           if the user isn't of an appropriate role
    */
-  static Donor createDonor(User user) throws IncompatiblePrivilegesException {
+  public static Donor createDonor(User user) throws IncompatiblePrivilegesException {
     if (Role.DONOR.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
       return new Donor(user);
     }
@@ -51,7 +51,7 @@ class UserFactory {
    * @throws IncompatiblePrivilegesException
    *           if the user isn't of an appropriate role
    */
-  static Receiver createReceiver(User user) throws IncompatiblePrivilegesException {
+  public static Receiver createReceiver(User user) throws IncompatiblePrivilegesException {
     if (Role.RECEIVER.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
       return new Receiver(user);
     }
@@ -67,7 +67,7 @@ class UserFactory {
    * @throws IncompatiblePrivilegesException
    *           if the user isn't of an appropriate role
    */
-  static SystemAdmin createSystemAdmin(User user) throws IncompatiblePrivilegesException {
+  public static SystemAdmin createSystemAdmin(User user) throws IncompatiblePrivilegesException {
     if (Role.SYSTEM_ADMIN.equals(user.getRole())) {
       return new SystemAdmin(user);
     }
@@ -83,7 +83,7 @@ class UserFactory {
    * @throws IncompatiblePrivilegesException
    *           if the user isn't of an appropriate role
    */
-  static Reporter createReporter(User user) throws IncompatiblePrivilegesException {
+  public static Reporter createReporter(User user) throws IncompatiblePrivilegesException {
     if (Role.SOCIAL_WORKER.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
       return new Reporter(user);
     }

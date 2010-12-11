@@ -1,6 +1,6 @@
 package aig.donations;
 
-enum ItemStatus {
+public enum ItemStatus {
   DONATED {
     @Override
     public String toString() {

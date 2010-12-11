@@ -1,6 +1,6 @@
 package aig.donations;
 
-enum Role {
+public enum Role {
   SYSTEM_ADMIN {
     @Override
     public String toString() {

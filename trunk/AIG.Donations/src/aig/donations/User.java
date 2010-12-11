@@ -12,7 +12,7 @@ import aig.donations.exceptions.*;
  * user.
  * 
  */
-class User {
+public class User {
   // the username, used for identification in the system
   private String                     username;
   // the role of the user, out of the available roles
@@ -25,7 +25,7 @@ class User {
   
   /* C'tors */
 
-  User(String username, Role role, String name) throws IllegalUserNameException,
+  public User(String username, Role role, String name) throws IllegalUserNameException,
       IllegalUserNameLengthException, IllegalUserRoleException, IllegalUserUsernameException,
       IllegalUserUsernameLengthException {
     
@@ -40,15 +40,15 @@ class User {
   
   /* Getters */
 
-  String getUsername() {
+  public String getUsername() {
     return username;
   }
   
-  Role getRole() {
+  public Role getRole() {
     return role;
   }
   
-  String getName() {
+  public String getName() {
     return name;
   }
 }

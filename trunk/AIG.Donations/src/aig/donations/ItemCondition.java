@@ -1,6 +1,6 @@
 package aig.donations;
 
-enum ItemCondition {
+public enum ItemCondition {
   EXCELLENT {
     @Override
     public String toString() {

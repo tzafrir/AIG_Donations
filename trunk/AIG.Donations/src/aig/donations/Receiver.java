@@ -12,13 +12,13 @@ import aig.donations.exceptions.ProjectNotFoundException;
 import aig.donations.exceptions.UserMismatchException;
 import aig.donations.exceptions.UserNotInWaitingListException;
 
-class Receiver extends User {
+public class Receiver extends User {
   
   Receiver(User user) {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  void requestItem(long projectId, long categoryId) throws ProjectClosedException,
+  public void requestItem(long projectId, long categoryId) throws ProjectClosedException,
       ProjectNotFoundException, CategoryDoesNotExistInProjectException,
       IllegalItemStatusTransitionException {
     Project project = Project.retrieveProject(projectId);
@@ -50,19 +50,19 @@ class Receiver extends User {
     
   }
   
-  List<ReceivedItem> getReceivedItems() {
+  public List<ReceivedItem> getReceivedItems() {
     return ReceivedItem.retrieveReceivedItemsByReceiver(getUsername());
   }
   
-  List<ReceivedItem> getMatchedItems() {
+  public List<ReceivedItem> getMatchedItems() {
     return ReceivedItem.retrieveMatchedItemsByReceiver(getUsername());
   }
   
-  List<Pair<Project, Category>> getWaitingData() {
+  public List<Pair<Project, Category>> getWaitingData() {
     return ReceivedItem.retrieveWaitingDataByReceiver(getUsername());
   }
   
-  void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
+  public void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
       IllegalItemStatusTransitionException {
     
     ReceivedItem item = ReceivedItem.retrieveItem(itemId);
@@ -78,7 +78,7 @@ class Receiver extends User {
     changeItemStatus(item, ItemStatus.PENDING);
   }
   
-  void regretCategoryRequest(long projectId, long categoryId) throws ProjectNotFoundException,
+  public void regretCategoryRequest(long projectId, long categoryId) throws ProjectNotFoundException,
       ProjectClosedException, CategoryDoesNotExistInProjectException, UserNotInWaitingListException {
     
     // this method is for users who are waiting in waiting queues (items weren't

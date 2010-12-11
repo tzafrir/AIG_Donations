@@ -9,13 +9,13 @@ import aig.donations.exceptions.IllegalItemConditionException;
 import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
-class Donor extends User {
+public class Donor extends User {
   
   Donor(User user) {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  long donateItem(long projectId, long categoryId, String itemName, String itemDescription,
+  public long donateItem(long projectId, long categoryId, String itemName, String itemDescription,
       ItemCondition itemCondition) throws ProjectNotFoundException, ProjectClosedException,
       CategoryDoesNotExistInProjectException, IllegalItemConditionException {
     
@@ -41,7 +41,7 @@ class Donor extends User {
         new Date(), getUsername(), itemCondition);
   }
   
-  List<Item> getDonatedItems() {
+  public List<Item> getDonatedItems() {
     return Item.retrieveItemsByDonor(getUsername());
   }
 }

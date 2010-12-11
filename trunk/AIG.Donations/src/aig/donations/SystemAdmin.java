@@ -2,14 +2,14 @@ package aig.donations;
 
 import aig.donations.exceptions.CategoryNotFoundException;
 
-class SystemAdmin extends User {
-  CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
+public class SystemAdmin extends User {
+  protected CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
   
   SystemAdmin(User user) {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  long createCategory(String name, String description, long parentId)
+  public long createCategory(String name, String description, long parentId)
       throws CategoryNotFoundException {
     // TODO: throws...
     checker.checkCategoryName(name);
@@ -21,14 +21,14 @@ class SystemAdmin extends User {
     return categoryDBGateway.addToDB(name, description, parentId);
   }
   
-  void renameCategory(long id, String newName) throws CategoryNotFoundException {
+  public void renameCategory(long id, String newName) throws CategoryNotFoundException {
     // TODO: throws...
     new ParameterLegalityChecker().checkCategoryName(newName);
     
     categoryDBGateway.retrieveCategory(id).setName(newName);
   }
   
-  void moveCategory(long id, long newParent) throws CategoryNotFoundException {
+  public void moveCategory(long id, long newParent) throws CategoryNotFoundException {
     // TODO: throws...
     // make sure parent category exists
     categoryDBGateway.retrieveCategory(newParent);

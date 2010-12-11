@@ -12,12 +12,15 @@ import aig.donations.exceptions.ProjectAlreadyClosedException;
 import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
-class SocialWorker extends User {
+public class SocialWorker extends User {
+  protected CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
+  
+  
   SocialWorker(User user) {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  long createProject(String name, String description, String location, Date eventTime) {
+  public long createProject(String name, String description, String location, Date eventTime) {
     checker.checkProjectName(name);
     checker.checkProjectDescription(description);
     checker.checkProjectLocation(location);
@@ -25,7 +28,7 @@ class SocialWorker extends User {
     return Project.addToDB(name, description, location, eventTime, getUsername());
   }
   
-  void closeProject(long projectId) throws ProjectNotFoundException, ProjectAlreadyClosedException,
+  public void closeProject(long projectId) throws ProjectNotFoundException, ProjectAlreadyClosedException,
       IncorrectSocialWorkerException {
     Project project = Project.retrieveProject(projectId);
     
@@ -38,7 +41,7 @@ class SocialWorker extends User {
     project.setEventTime(new Date());
   }
   
-  void renameProject(long projectId, String newName) throws ProjectNotFoundException,
+  public void renameProject(long projectId, String newName) throws ProjectNotFoundException,
       IncorrectSocialWorkerException {
     checker.checkProjectName(newName);
     
@@ -49,7 +52,7 @@ class SocialWorker extends User {
     project.setName(newName);
   }
   
-  void changeProjectDescription(long projectId, String newDescription)
+  public void changeProjectDescription(long projectId, String newDescription)
       throws ProjectNotFoundException, IncorrectSocialWorkerException {
     checker.checkProjectDescription(newDescription);
     
@@ -60,13 +63,13 @@ class SocialWorker extends User {
     project.setDescription(newDescription);
   }
   
-  void changeProjectLocation(long projectId, String newLocation) throws ProjectNotFoundException {
+  public void changeProjectLocation(long projectId, String newLocation) throws ProjectNotFoundException {
     checker.checkProjectLocation(newLocation);
     
     Project.retrieveProject(projectId).setLocation(newLocation);
   }
 
-  void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException,
+  public void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException,
       IncorrectSocialWorkerException {
     checker.checkProjectEventTime(newEventTime);
     
@@ -77,11 +80,9 @@ class SocialWorker extends User {
     project.setEventTime(newEventTime);
   }
   
-  void addCategoryToProject(long projectId, long categoryId) throws ProjectNotFoundException,
+  public void addCategoryToProject(long projectId, long categoryId) throws ProjectNotFoundException,
       CategoryNotFoundException, IncorrectSocialWorkerException {
-    // TODO(tzafrir/eran): Use an instance variable for the database gateway, to enable testing in
-    // isolation.
-    new CategoryDatabaseGatewayImpl().retrieveCategory(categoryId);
+    categoryDBGateway.retrieveCategory(categoryId);
     
     Project project = Project.retrieveProject(projectId);
     
@@ -90,7 +91,7 @@ class SocialWorker extends User {
     project.addCategory(categoryId);
   }
   
-  void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
+  public void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
       throws ItemNotFoundException, ProjectNotFoundException, ProjectClosedException,
       CategoryNotFoundException, IncorrectSocialWorkerException, ItemNotPendingException {
     Item item = Item.retrieveItem(itemId);
@@ -114,12 +115,12 @@ class SocialWorker extends User {
     item.setCategory(destinationCategoryId);
   }
   
-  void returnItemToDonor(long itemId) throws ItemNotFoundException, IncorrectSocialWorkerException,
+  public void returnItemToDonor(long itemId) throws ItemNotFoundException, IncorrectSocialWorkerException,
       IllegalItemStatusTransitionException {
     changeItemStatus(itemId, ItemStatus.RETURNED);
   }
   
-  void changeItemStatus(long itemId, ItemStatus newStatus) throws ItemNotFoundException,
+  public void changeItemStatus(long itemId, ItemStatus newStatus) throws ItemNotFoundException,
       IllegalItemStatusTransitionException, IncorrectSocialWorkerException {
     Item item = Item.retrieveItem(itemId);
     
