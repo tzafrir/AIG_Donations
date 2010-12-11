@@ -31,7 +31,9 @@ public class AdministrationTest {
   
   @Test
   public void testSignUpLegalData() throws IllegalPasswordLengthException,
-      IllegalPasswordException, UserAlreadyExistsException {
+      IllegalPasswordException, UserAlreadyExistsException, IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
+      IllegalUserUsernameException {
     final String newUsername = "humpty";
     Administration.signUp(newUsername, Role.DONOR, "dumpty", "abc123ABC~!@");
     addedUsernames.add(newUsername);
@@ -39,7 +41,9 @@ public class AdministrationTest {
   
   @Test
   public void testSignUpSameDataDifferentUsername() throws IllegalPasswordLengthException,
-      IllegalPasswordException, UserAlreadyExistsException {
+      IllegalPasswordException, UserAlreadyExistsException, IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
+      IllegalUserUsernameException {
     final String newUsername = "q";
     Administration.signUp(newUsername, Role.SYSTEM_ADMIN, "red queen", "asdf1234");
     addedUsernames.add(newUsername);
@@ -47,7 +51,9 @@ public class AdministrationTest {
   
   @Test(expected = IllegalPasswordException.class)
   public void testSignUpIllegalPasswordNull() throws IllegalPasswordLengthException,
-      IllegalPasswordException, UserAlreadyExistsException {
+      IllegalPasswordException, UserAlreadyExistsException, IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
+      IllegalUserUsernameException {
     final String newUsername = "humpty";
     Administration.signUp(newUsername, Role.DONOR, "dumpty", null);
     addedUsernames.add(newUsername);
@@ -55,7 +61,9 @@ public class AdministrationTest {
   
   @Test(expected = IllegalPasswordLengthException.class)
   public void testSignUpIllegalPasswordTooShort() throws IllegalPasswordLengthException,
-      IllegalPasswordException, UserAlreadyExistsException {
+      IllegalPasswordException, UserAlreadyExistsException, IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
+      IllegalUserUsernameException {
     final String newUsername = "humpty";
     Administration.signUp(newUsername, Role.DONOR, "dumpty", "abc12");
     addedUsernames.add(newUsername);
@@ -63,7 +71,9 @@ public class AdministrationTest {
   
   @Test(expected = IllegalPasswordLengthException.class)
   public void testSignUpIllegalPasswordTooLong() throws IllegalPasswordLengthException,
-      IllegalPasswordException, UserAlreadyExistsException {
+      IllegalPasswordException, UserAlreadyExistsException, IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
+      IllegalUserUsernameException {
     final String newUsername = "humpty";
     Administration.signUp(newUsername, Role.DONOR, "dumpty", "123451234512345123456");
     addedUsernames.add(newUsername);

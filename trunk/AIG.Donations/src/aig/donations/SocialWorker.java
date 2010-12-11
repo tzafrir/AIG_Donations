@@ -5,6 +5,18 @@ import java.util.Date;
 import aig.donations.exceptions.CategoryNotFoundException;
 import aig.donations.exceptions.EmptyWaitingListException;
 import aig.donations.exceptions.IllegalItemStatusTransitionException;
+import aig.donations.exceptions.IllegalProjectDescriptionException;
+import aig.donations.exceptions.IllegalProjectDescriptionLengthException;
+import aig.donations.exceptions.IllegalProjectEventTimeException;
+import aig.donations.exceptions.IllegalProjectLocationException;
+import aig.donations.exceptions.IllegalProjectLocationLengthException;
+import aig.donations.exceptions.IllegalProjectNameException;
+import aig.donations.exceptions.IllegalProjectNameLengthException;
+import aig.donations.exceptions.IllegalUserNameException;
+import aig.donations.exceptions.IllegalUserNameLengthException;
+import aig.donations.exceptions.IllegalUserRoleException;
+import aig.donations.exceptions.IllegalUserUsernameException;
+import aig.donations.exceptions.IllegalUserUsernameLengthException;
 import aig.donations.exceptions.IncorrectSocialWorkerException;
 import aig.donations.exceptions.ItemNotFoundException;
 import aig.donations.exceptions.ItemNotPendingException;
@@ -15,12 +27,17 @@ import aig.donations.exceptions.ProjectNotFoundException;
 public class SocialWorker extends User {
   protected CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
   
-  
-  SocialWorker(User user) {
+  SocialWorker(User user) throws IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
+      IllegalUserUsernameException {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  public long createProject(String name, String description, String location, Date eventTime) {
+  public long createProject(String name, String description, String location, Date eventTime)
+      throws IllegalProjectNameLengthException, IllegalProjectNameException,
+      IllegalProjectDescriptionLengthException, IllegalProjectDescriptionException,
+      IllegalProjectLocationLengthException, IllegalProjectLocationException,
+      IllegalProjectEventTimeException {
     checker.checkProjectName(name);
     checker.checkProjectDescription(description);
     checker.checkProjectLocation(location);
@@ -28,8 +45,8 @@ public class SocialWorker extends User {
     return Project.addToDB(name, description, location, eventTime, getUsername());
   }
   
-  public void closeProject(long projectId) throws ProjectNotFoundException, ProjectAlreadyClosedException,
-      IncorrectSocialWorkerException {
+  public void closeProject(long projectId) throws ProjectNotFoundException,
+      ProjectAlreadyClosedException, IncorrectSocialWorkerException {
     Project project = Project.retrieveProject(projectId);
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
@@ -42,7 +59,8 @@ public class SocialWorker extends User {
   }
   
   public void renameProject(long projectId, String newName) throws ProjectNotFoundException,
-      IncorrectSocialWorkerException {
+      IncorrectSocialWorkerException, IllegalProjectNameLengthException,
+      IllegalProjectNameException {
     checker.checkProjectName(newName);
     
     Project project = Project.retrieveProject(projectId);
@@ -53,7 +71,8 @@ public class SocialWorker extends User {
   }
   
   public void changeProjectDescription(long projectId, String newDescription)
-      throws ProjectNotFoundException, IncorrectSocialWorkerException {
+      throws ProjectNotFoundException, IncorrectSocialWorkerException,
+      IllegalProjectDescriptionLengthException, IllegalProjectDescriptionException {
     checker.checkProjectDescription(newDescription);
     
     Project project = Project.retrieveProject(projectId);
@@ -63,14 +82,16 @@ public class SocialWorker extends User {
     project.setDescription(newDescription);
   }
   
-  public void changeProjectLocation(long projectId, String newLocation) throws ProjectNotFoundException {
+  public void changeProjectLocation(long projectId, String newLocation)
+      throws ProjectNotFoundException, IllegalProjectLocationLengthException,
+      IllegalProjectLocationException {
     checker.checkProjectLocation(newLocation);
     
     Project.retrieveProject(projectId).setLocation(newLocation);
   }
-
+  
   public void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException,
-      IncorrectSocialWorkerException {
+      IncorrectSocialWorkerException, IllegalProjectEventTimeException {
     checker.checkProjectEventTime(newEventTime);
     
     Project project = Project.retrieveProject(projectId);
@@ -80,8 +101,8 @@ public class SocialWorker extends User {
     project.setEventTime(newEventTime);
   }
   
-  public void addCategoryToProject(long projectId, long categoryId) throws ProjectNotFoundException,
-      CategoryNotFoundException, IncorrectSocialWorkerException {
+  public void addCategoryToProject(long projectId, long categoryId)
+      throws ProjectNotFoundException, CategoryNotFoundException, IncorrectSocialWorkerException {
     categoryDBGateway.retrieveCategory(categoryId);
     
     Project project = Project.retrieveProject(projectId);
@@ -115,8 +136,8 @@ public class SocialWorker extends User {
     item.setCategory(destinationCategoryId);
   }
   
-  public void returnItemToDonor(long itemId) throws ItemNotFoundException, IncorrectSocialWorkerException,
-      IllegalItemStatusTransitionException {
+  public void returnItemToDonor(long itemId) throws ItemNotFoundException,
+      IncorrectSocialWorkerException, IllegalItemStatusTransitionException {
     changeItemStatus(itemId, ItemStatus.RETURNED);
   }
   
@@ -161,7 +182,7 @@ public class SocialWorker extends User {
     receivedItem.setReceiverUsername(waitingUser);
     receivedItem.setStatus(ItemStatus.MATCHED);
   }
-
+  
   private boolean isTransitionLegal(ItemStatus oldStatus, ItemStatus newStatus) {
     switch (oldStatus) {
     case DONATED:

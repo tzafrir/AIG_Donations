@@ -1,5 +1,6 @@
 package aig.donations;
 
+import aig.donations.exceptions.IllegalParameterException;
 import aig.donations.exceptions.IncompatiblePrivilegesException;
 
 /**
@@ -21,7 +22,11 @@ public class UserFactory {
    */
   public static SocialWorker createSocialWorker(User user) throws IncompatiblePrivilegesException {
     if (Role.SOCIAL_WORKER.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
-      return new SocialWorker(user);
+      try {
+        return new SocialWorker(user);
+      } catch (IllegalParameterException e) {
+        throw new AssertionError(e);
+      }
     }
     throw new IncompatiblePrivilegesException("social worker");
   }
@@ -37,7 +42,11 @@ public class UserFactory {
    */
   public static Donor createDonor(User user) throws IncompatiblePrivilegesException {
     if (Role.DONOR.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
-      return new Donor(user);
+      try {
+        return new Donor(user);
+      } catch (IllegalParameterException e) {
+        throw new AssertionError(e);
+      }
     }
     throw new IncompatiblePrivilegesException("donor");
   }
@@ -53,7 +62,11 @@ public class UserFactory {
    */
   public static Receiver createReceiver(User user) throws IncompatiblePrivilegesException {
     if (Role.RECEIVER.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
-      return new Receiver(user);
+      try {
+        return new Receiver(user);
+      } catch (IllegalParameterException e) {
+        throw new AssertionError(e);
+      }
     }
     throw new IncompatiblePrivilegesException("receiver");
   }
@@ -69,7 +82,11 @@ public class UserFactory {
    */
   public static SystemAdmin createSystemAdmin(User user) throws IncompatiblePrivilegesException {
     if (Role.SYSTEM_ADMIN.equals(user.getRole())) {
-      return new SystemAdmin(user);
+      try {
+        return new SystemAdmin(user);
+      } catch (IllegalParameterException e) {
+        throw new AssertionError(e);
+      }
     }
     throw new IncompatiblePrivilegesException("administration");
   }
@@ -85,7 +102,11 @@ public class UserFactory {
    */
   public static Reporter createReporter(User user) throws IncompatiblePrivilegesException {
     if (Role.SOCIAL_WORKER.equals(user.getRole()) || Role.SYSTEM_ADMIN.equals(user.getRole())) {
-      return new Reporter(user);
+      try {
+        return new Reporter(user);
+      } catch (IllegalParameterException e) {
+        throw new AssertionError(e);
+      }
     }
     throw new IncompatiblePrivilegesException("reporting");
   }

@@ -1,8 +1,8 @@
 package aig.donations.exceptions;
 
-public class CategoryIsTopLevelException extends IllegalParameterException {
+public class IllegalParameterException extends Exception {
   
-  public CategoryIsTopLevelException(String message) {
+  public IllegalParameterException(String message) {
     super(message);
   }
   

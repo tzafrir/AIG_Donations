@@ -2,12 +2,18 @@ package aig.donations;
 
 import java.util.List;
 
+import aig.donations.exceptions.IllegalUserNameException;
+import aig.donations.exceptions.IllegalUserNameLengthException;
+import aig.donations.exceptions.IllegalUserRoleException;
+import aig.donations.exceptions.IllegalUserUsernameException;
+import aig.donations.exceptions.IllegalUserUsernameLengthException;
 import aig.donations.exceptions.IncorrectSocialWorkerException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
 public class Reporter extends User {
   
-  Reporter(User user) {
+  Reporter(User user) throws IllegalUserNameLengthException, IllegalUserUsernameLengthException,
+      IllegalUserNameException, IllegalUserRoleException, IllegalUserUsernameException {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   

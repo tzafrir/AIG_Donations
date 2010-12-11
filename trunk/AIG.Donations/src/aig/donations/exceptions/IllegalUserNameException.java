@@ -1,6 +1,6 @@
 package aig.donations.exceptions;
 
-public class IllegalUserNameException extends IllegalArgumentException {
+public class IllegalUserNameException extends IllegalParameterException {
   
   public IllegalUserNameException(String message) {
     super(message);

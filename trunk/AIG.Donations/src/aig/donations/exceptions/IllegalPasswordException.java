@@ -1,6 +1,6 @@
 package aig.donations.exceptions;
 
-public class IllegalPasswordException extends IllegalArgumentException {
+public class IllegalPasswordException extends IllegalParameterException {
   
   public IllegalPasswordException(String message) {
     super(message);

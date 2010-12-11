@@ -1,11 +1,11 @@
 package aig.donations.exceptions;
 
-public class IllegalItemNameException extends IllegalArgumentException {
+public class IllegalItemNameException extends IllegalParameterException {
   
   public IllegalItemNameException(String message) {
     super(message);
   }
-
+  
   /**
    * 
    */

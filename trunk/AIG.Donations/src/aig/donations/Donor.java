@@ -4,20 +4,33 @@ import java.util.Date;
 import java.util.List;
 
 import aig.donations.exceptions.CategoryDoesNotExistInProjectException;
+import aig.donations.exceptions.CategoryIsTopLevelException;
 import aig.donations.exceptions.CategoryNotFoundException;
 import aig.donations.exceptions.IllegalItemConditionException;
+import aig.donations.exceptions.IllegalItemDescriptionException;
+import aig.donations.exceptions.IllegalItemDescriptionLengthException;
+import aig.donations.exceptions.IllegalItemNameException;
+import aig.donations.exceptions.IllegalItemNameLengthException;
+import aig.donations.exceptions.IllegalUserNameException;
+import aig.donations.exceptions.IllegalUserNameLengthException;
+import aig.donations.exceptions.IllegalUserRoleException;
+import aig.donations.exceptions.IllegalUserUsernameException;
+import aig.donations.exceptions.IllegalUserUsernameLengthException;
 import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
 public class Donor extends User {
   
-  Donor(User user) {
+  Donor(User user) throws IllegalUserNameLengthException, IllegalUserUsernameLengthException,
+      IllegalUserNameException, IllegalUserRoleException, IllegalUserUsernameException {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
   public long donateItem(long projectId, long categoryId, String itemName, String itemDescription,
       ItemCondition itemCondition) throws ProjectNotFoundException, ProjectClosedException,
-      CategoryDoesNotExistInProjectException, IllegalItemConditionException {
+      CategoryDoesNotExistInProjectException, IllegalItemConditionException,
+      CategoryIsTopLevelException, IllegalItemNameLengthException, IllegalItemNameException,
+      IllegalItemDescriptionLengthException, IllegalItemDescriptionException {
     
     Project project = Project.retrieveProject(projectId);
     if (project.isClosed()) {

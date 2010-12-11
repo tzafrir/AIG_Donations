@@ -3,8 +3,14 @@ package aig.donations;
 import java.util.List;
 
 import aig.donations.exceptions.CategoryDoesNotExistInProjectException;
+import aig.donations.exceptions.CategoryIsTopLevelException;
 import aig.donations.exceptions.CategoryNotFoundException;
 import aig.donations.exceptions.IllegalItemStatusTransitionException;
+import aig.donations.exceptions.IllegalUserNameException;
+import aig.donations.exceptions.IllegalUserNameLengthException;
+import aig.donations.exceptions.IllegalUserRoleException;
+import aig.donations.exceptions.IllegalUserUsernameException;
+import aig.donations.exceptions.IllegalUserUsernameLengthException;
 import aig.donations.exceptions.ItemNotMatchedException;
 import aig.donations.exceptions.NoPendingItemsException;
 import aig.donations.exceptions.ProjectClosedException;
@@ -14,13 +20,14 @@ import aig.donations.exceptions.UserNotInWaitingListException;
 
 public class Receiver extends User {
   
-  Receiver(User user) {
+  Receiver(User user) throws IllegalUserNameLengthException, IllegalUserUsernameLengthException,
+      IllegalUserNameException, IllegalUserRoleException, IllegalUserUsernameException {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
   public void requestItem(long projectId, long categoryId) throws ProjectClosedException,
       ProjectNotFoundException, CategoryDoesNotExistInProjectException,
-      IllegalItemStatusTransitionException {
+      IllegalItemStatusTransitionException, CategoryIsTopLevelException {
     Project project = Project.retrieveProject(projectId);
     if (project.isClosed()) {
       // also checks that the project exists
@@ -78,8 +85,9 @@ public class Receiver extends User {
     changeItemStatus(item, ItemStatus.PENDING);
   }
   
-  public void regretCategoryRequest(long projectId, long categoryId) throws ProjectNotFoundException,
-      ProjectClosedException, CategoryDoesNotExistInProjectException, UserNotInWaitingListException {
+  public void regretCategoryRequest(long projectId, long categoryId)
+      throws ProjectNotFoundException, ProjectClosedException,
+      CategoryDoesNotExistInProjectException, UserNotInWaitingListException {
     
     // this method is for users who are waiting in waiting queues (items weren't
     // matched)

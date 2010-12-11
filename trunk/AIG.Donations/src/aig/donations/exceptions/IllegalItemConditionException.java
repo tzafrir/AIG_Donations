@@ -1,6 +1,6 @@
 package aig.donations.exceptions;
 
-public class IllegalItemConditionException extends IllegalArgumentException {
+public class IllegalItemConditionException extends IllegalParameterException {
   
   public IllegalItemConditionException(String message) {
     super(message);

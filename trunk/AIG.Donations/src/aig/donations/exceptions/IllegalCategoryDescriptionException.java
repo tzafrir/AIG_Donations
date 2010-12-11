@@ -1,11 +1,11 @@
 package aig.donations.exceptions;
 
-public class IllegalCategoryDescriptionException extends IllegalArgumentException {
+public class IllegalCategoryDescriptionException extends IllegalParameterException {
   
   public IllegalCategoryDescriptionException(String message) {
-   super(message);
+    super(message);
   }
-
+  
   /**
    * 
    */

@@ -1,6 +1,6 @@
 package aig.donations.exceptions;
 
-public class IllegalUserRoleException extends IllegalArgumentException {
+public class IllegalUserRoleException extends IllegalParameterException {
   
   public IllegalUserRoleException(String message) {
     super(message);

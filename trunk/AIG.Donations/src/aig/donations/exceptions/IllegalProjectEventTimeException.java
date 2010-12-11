@@ -1,6 +1,6 @@
 package aig.donations.exceptions;
 
-public class IllegalProjectEventTimeException extends IllegalArgumentException {
+public class IllegalProjectEventTimeException extends IllegalParameterException {
   
   public IllegalProjectEventTimeException(String message) {
     super(message);
