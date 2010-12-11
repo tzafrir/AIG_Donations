@@ -72,8 +72,8 @@ class Project {
     // TODO Auto-generated method stub
     // TODO: removes the user 'username' from the queue, throws if it isn't
     // there.
-    // TODO: if a user can request twice from a category - does this remove 1
-    // request or all requests from this category?
+    // TODO: removes only the first occurence of this user in the queue
+    // (he may be there multiple times)
   }
   
   Item getPendingItem(long categoryId) throws NoPendingItemsException {
