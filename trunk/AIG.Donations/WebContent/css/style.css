@@ -1,0 +1,254 @@
+body{
+  background: white url(bg.png) repeat-x;
+  margin: 0px;
+  padding: 0px;
+}
+/*
+
+A page wouldn't be the same with a #page
+
+*/
+#page{
+  width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/*
+
+Hello Mr. Header, how are you doing today?
+
+*/
+#header{
+  width: 780px;
+  height: 160px;
+  background: url(donations1.png) repeat-x;
+  margin-left: auto;
+  margin-right: auto;
+ 
+}
+/*
+
+PEANUT BUTTER MENU TIME, PEANUT BUTTER MENU TIME
+
+*/
+#menu, #menu ul{
+  margin-left:150px;	
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+
+}
+
+#menu ul{
+  list-style: none;
+  display: inline;
+ }
+ 
+#menu li{
+  width:130px;
+  display: inline;
+  padding-right:10px;
+  float:left;
+}
+
+#menu li ul{
+		background:#138717;
+		display:none;
+		height:auto;
+		padding:0px;
+		margin-top:8px;
+		margin-left:0px;
+		margin-right:0px;
+		border-bottom:1px solid #000;
+		border-left:1px solid #000;
+		border-right:1px solid #000;
+		width:auto;
+		/*z-index:200;*/
+		/*top:1em;*/
+		}
+
+#menu li:hover ul{
+		display:list-item;
+		position:absolute;
+		left:auto;
+}
+
+#menu li ul li{
+  display:list-item;
+  float:none;
+  text-align:left;
+  padding:0px;
+  margin:0px;
+}
+#menu li li a:hover{
+    border: 0px;
+    font-weight: bold;
+    float:none;
+}
+
+#menu a{
+  color: #FFF;
+  background-color: transparent;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 12px;
+  padding: 10px;
+}
+#menu a:hover{
+  /*border-bottom: solid 1px #FFF;
+  border-top: solid 1px #FFF;*/
+  font-weight: bold;
+  
+
+}
+		
+/*
+
+And now, the main attraction
+
+*/
+#content{
+  min-height:420px;
+  width: 100%;
+}
+
+#content h1{
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0px;
+  padding: 5px;
+}
+
+#content  h2 {
+  font-family: sans-serif;
+  font-size: 30px;
+  text-decoration: bold;  
+}
+
+#content p{
+  font-family: sans-serif;
+  font-size: 12px;
+  margin: 0px;
+  padding: 8px;
+}
+#content a{
+  color: #0E5369;
+}
+#content a:hover{
+  color: #0E5369;
+}
+#content a:hover, #content a:visited{
+  color: #126885;
+}
+#content img{
+  border: double 5px #DDDDDD;
+}
+
+/*
+
+Everyone loves a good footer
+
+*/
+#footer{
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #CFCFCF;
+  margin-top: 10px;
+  margin-bottom:25px;
+  font-family: sans-serif;
+  font-size: 10px;
+  color: black;
+}
+
+#footerLinks a {
+  font-family: sans-serif;
+  font-size: 10px;
+  padding: 0px;
+  color: #AABBBB;
+  text-decoration: none;
+}
+
+label
+{
+width: 4.5em;
+color: black;
+float: left;
+text-align: center;
+margin-right: 0.5em;
+display: block
+}
+
+input[type="checkbox"]{
+  text-decoration:bold;
+}
+
+.submit input
+{
+ margin-left: 4.5em;
+ border: 2px outset #000
+} 
+input
+{
+color: solid black;
+background: #afe8fb;
+border: 1px solid #000
+}
+
+.submit input
+{
+color: #000;
+background: #afe8fb;
+border: 2px outset #fff
+} 
+fieldset
+{
+font-family: sans-serif;
+background-color:transparent;
+border: 0px solid #000;
+width: 15em;
+margin-top: 15px;
+margin-left: 500px;
+}
+
+legend
+{
+color: #000000;
+background: #20c13e;
+border: 1px solid #000;
+padding: 2px 6px
+}
+
+#loginbutton submit
+{
+  margin-left: 20px;
+}
+
+#SignUpLink {
+  font-family: sans-serif;
+  font-size: 12px;
+  padding: 0px;
+  color: #AABBBB;
+  text-decoration: none;
+}
+
+#submissionOptions {
+  text-align: right;
+}
+
+.errorMessages {
+  font-family:arial;
+  color:FireBrick;
+  margin-left:10px;
+}
+table {
+margin-left:100px;
+font-family:Arial;
+}
+
+select {
+  width:155px;
+  margin-left:2px;
+  background-color:#afe8fb;
+}
+
