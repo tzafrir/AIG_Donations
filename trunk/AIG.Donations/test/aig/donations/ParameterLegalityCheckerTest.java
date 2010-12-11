@@ -1,5 +1,7 @@
 package aig.donations;
 
+import static org.junit.Assert.fail;
+
 import java.util.Date;
 
 import org.junit.Test;
@@ -258,14 +260,42 @@ public class ParameterLegalityCheckerTest {
     checker.checkItemCondition(null);
   }
   
-  /*@Test
-  public void testCheckCategoryIsntTopLevel() {
-    fail("Not yet implemented");
+  /**** CheckThatProjectIsOurs ****/
+  
+  private class TestProject extends Project {
+    public TestProject() {}
+    public String getSocialWorkerUsername() {
+      return "Moshe";
+    }
   }
   
   @Test
-  public void testCheckThatProjectIsOurs() {
+  public void testCheckThatProjectIsOursSystemAdmin() throws IncorrectSocialWorkerException {
+    checker.checkThatProjectIsOurs(new TestProject(), "bla", Role.SYSTEM_ADMIN);
+  }
+  
+  @Test
+  public void testCheckThatProjectIsOursGoodSocialWorker() throws IncorrectSocialWorkerException {
+    checker.checkThatProjectIsOurs(new TestProject(), "Moshe", Role.SOCIAL_WORKER);
+  }
+  
+  @Test (expected = IncorrectSocialWorkerException.class)
+  public void testCheckThatProjectIsOursBadSocialWorker() throws IncorrectSocialWorkerException {
+    checker.checkThatProjectIsOurs(new TestProject(), "bla", Role.SOCIAL_WORKER);
+  }
+  
+  @Test (expected = IncorrectSocialWorkerException.class)
+  public void testCheckThatProjectIsOursNotSocialWorker() throws IncorrectSocialWorkerException {
+    checker.checkThatProjectIsOurs(new TestProject(), "bla", Role.DONOR);
+  }
+  
+  
+  @Test
+  public void testCheckCategoryIsntTopLevel() {
     fail("Not yet implemented");
-  }*///TODO
+  }//TODO
   
 }
+
+
+

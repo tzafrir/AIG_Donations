@@ -1,5 +1,7 @@
 package aig.donations;
 
+import static org.junit.Assert.fail;
+
 import java.util.LinkedList;
 
 import org.junit.AfterClass;
@@ -55,6 +57,36 @@ public class AdministrationTest {
     addedUsernames.add(newUsername);
   }
   
+  @Test /*(expected = UserAlreadyExistsException.class)*/
+  public void testSignUpUserAlreadyExists(){
+    fail("Not yet implemented");
+  }
   
-  //TODO- test login
+  /**** Login tests ****/
+  
+  @Test
+  public void testLogin(){
+    fail("Not yet implemented");
+  }
+  
+  @Test /*(expected = BadLoginException.class)*/
+  public void testLoginNullUsername(){
+    fail("Not yet implemented");
+  }
+  
+  @Test /*(expected = BadLoginException.class)*/
+  public void testLoginNullInputPassword(){
+    fail("Not yet implemented");
+  }
+  
+  @Test /*(expected = BadLoginException.class)*/
+  public void testLoginUsernameDoesntExist(){
+    fail("Not yet implemented");
+  }
+  
+  @Test /*(expected = BadLoginException.class)*/
+  public void testLoginPasswordDoesntMatch(){
+    fail("Not yet implemented");
+  }
+  
 }

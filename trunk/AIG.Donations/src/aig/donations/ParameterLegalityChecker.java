@@ -215,7 +215,7 @@ public class ParameterLegalityChecker {
   
   void checkThatProjectIsOurs(Project project, String username, Role role)
       throws IncorrectSocialWorkerException {
-    if (!username.equals(project.getSocialWorkerUsername()) && Role.SYSTEM_ADMIN != role) {
+    if (Role.SYSTEM_ADMIN != role && !username.equals(project.getSocialWorkerUsername())) {
       throw new IncorrectSocialWorkerException("The project does not belong to this social worker");
     }
   }

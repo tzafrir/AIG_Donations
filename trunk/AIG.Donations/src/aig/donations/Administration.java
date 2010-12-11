@@ -3,13 +3,20 @@ package aig.donations;
 import aig.donations.exceptions.BadLoginException;
 import aig.donations.exceptions.IllegalPasswordException;
 import aig.donations.exceptions.IllegalPasswordLengthException;
+import aig.donations.exceptions.IllegalUserNameException;
+import aig.donations.exceptions.IllegalUserNameLengthException;
+import aig.donations.exceptions.IllegalUserRoleException;
+import aig.donations.exceptions.IllegalUserUsernameException;
+import aig.donations.exceptions.IllegalUserUsernameLengthException;
 import aig.donations.exceptions.UserAlreadyExistsException;
 import aig.donations.exceptions.UserNotFoundException;
 
 class Administration {
   
   static void signUp(String username, Role role, String name, String password)
-      throws IllegalPasswordException, IllegalPasswordLengthException, UserAlreadyExistsException {
+      throws IllegalUserNameException, IllegalUserNameLengthException, IllegalUserRoleException,
+      IllegalUserUsernameException, IllegalUserUsernameLengthException, IllegalPasswordException,
+      IllegalPasswordLengthException, UserAlreadyExistsException {
     // check username, role and name:
     new User(username, role, name);
     
