@@ -13,7 +13,6 @@ import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
 
 class SocialWorker extends User {
-  
   SocialWorker(User user) {
     super(user.getUsername(), user.getRole(), user.getName());
   }
@@ -66,7 +65,7 @@ class SocialWorker extends User {
     
     Project.retrieveProject(projectId).setLocation(newLocation);
   }
-  
+
   void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException,
       IncorrectSocialWorkerException {
     checker.checkProjectEventTime(newEventTime);
@@ -80,8 +79,9 @@ class SocialWorker extends User {
   
   void addCategoryToProject(long projectId, long categoryId) throws ProjectNotFoundException,
       CategoryNotFoundException, IncorrectSocialWorkerException {
-    // make sure category exists:
-    new Category().retrieveCategory(categoryId);
+    // TODO(tzafrir/eran): Use an instance variable for the database gateway, to enable testing in
+    // isolation.
+    new CategoryDatabaseGatewayImpl().retrieveCategory(categoryId);
     
     Project project = Project.retrieveProject(projectId);
     
@@ -160,7 +160,7 @@ class SocialWorker extends User {
     receivedItem.setReceiverUsername(waitingUser);
     receivedItem.setStatus(ItemStatus.MATCHED);
   }
-  
+
   private boolean isTransitionLegal(ItemStatus oldStatus, ItemStatus newStatus) {
     switch (oldStatus) {
     case DONATED:
@@ -172,5 +172,4 @@ class SocialWorker extends User {
     }
     return false;
   }
-  
 }
