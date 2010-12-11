@@ -3,81 +3,51 @@ package aig.donations;
 import aig.donations.exceptions.CategoryNotFoundException;
 
 class SystemAdmin extends User {
+  CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
+  
   SystemAdmin(User user) {
     super(user.getUsername(), user.getRole(), user.getName());
   }
   
-  long createCategory(String name, String description, long parentId) {
+  long createCategory(String name, String description, long parentId)
+      throws CategoryNotFoundException {
     // TODO: throws...
     checker.checkCategoryName(name);
     checker.checkCategoryDescription(name);
-
-    //make sure parent category exists
-    // TODO(tzafrir/eran): Store a Cat gateway in a variable.
-    CategoryDatabaseGatewayImpl gateway = new CategoryDatabaseGatewayImpl();
-    try {
-      gateway.retrieveCategory(parentId);
-    } catch (CategoryNotFoundException e) {
-      // TODO: Handle.
-    }
-
-    return gateway.addToDB(name, description, parentId);
-  }
-
-  void renameCategory(long id, String newName) {
-    //TODO: throws...
-    new ParameterLegalityChecker().checkCategoryName(newName);
-
-    // TODO(tzafrir/eran): Store a Cat gateway in a variable.
-    try {
-      new CategoryDatabaseGatewayImpl().retrieveCategory(id).setName(newName);
-    } catch (CategoryNotFoundException e) {
-      // TODO: Handle.
-    }
-  }
-
-
-  void moveCategory(long id, long newParent) {
-    //TODO: throws...
-    //make sure parent category exists
-    // TODO(tzafrir/eran): Store a Cat gateway in a variable.
-    CategoryDatabaseGatewayImpl gateway = new CategoryDatabaseGatewayImpl();
-    try {
-      gateway.retrieveCategory(newParent);
-    } catch (CategoryNotFoundException e) {
-      // TODO: Handle.
-    }
-
-    try {
-      gateway.retrieveCategory(id).setParentId(newParent);
-    } catch (CategoryNotFoundException e) {
-      // TODO: Handle.
-    }
-  }
-
-  void changeCategoryDescription(long id, String newDescription) {
-    // TODO: throws...
-    checker.checkCategoryDescription(newDescription);
-
-    // TODO(tzafrir/eran): gateway variable...
-    try {
-      new CategoryDatabaseGatewayImpl().retrieveCategory(id).setDescription(newDescription);
-    } catch (CategoryNotFoundException e) {
-      // TODO: Handle.
-    }
+    
+    // make sure parent category exists
+    categoryDBGateway.retrieveCategory(parentId);
+    
+    return categoryDBGateway.addToDB(name, description, parentId);
   }
   
-  void removeCategory(long id) {
-    //TODO: throws...
-
-    // TODO(tzafrir/eran): gateway variable...
-    try {
-      new CategoryDatabaseGatewayImpl().retrieveCategory(id).removeCategory();
-    } catch (CategoryNotFoundException e) {
-      // TODO: Handle.
-    }
+  void renameCategory(long id, String newName) throws CategoryNotFoundException {
+    // TODO: throws...
+    new ParameterLegalityChecker().checkCategoryName(newName);
+    
+    categoryDBGateway.retrieveCategory(id).setName(newName);
   }
-
+  
+  void moveCategory(long id, long newParent) throws CategoryNotFoundException {
+    // TODO: throws...
+    // make sure parent category exists
+    categoryDBGateway.retrieveCategory(newParent);
+    
+    categoryDBGateway.retrieveCategory(id).setParentId(newParent);
+  }
+  
+  void changeCategoryDescription(long id, String newDescription) throws CategoryNotFoundException {
+    // TODO: throws...
+    checker.checkCategoryDescription(newDescription);
+    
+    categoryDBGateway.retrieveCategory(id).setDescription(newDescription);
+  }
+  
+  void removeCategory(long id) throws CategoryNotFoundException {
+    // TODO: throws...
+    categoryDBGateway.retrieveCategory(id).removeCategory();
+  }
+  
   void removeUser(String username) {
     // TODO: throws...
     UserDBHandler.removeUser(username);

@@ -1,7 +1,5 @@
 package aig.donations;
 
-import static org.junit.Assert.fail;
-
 import java.util.LinkedList;
 
 import org.junit.AfterClass;
@@ -16,6 +14,12 @@ public class AdministrationTest {
   
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
+    String newUsername = "mad";
+    Administration.signUp(newUsername, Role.DONOR, "hatter", "12341234");
+    addedUsernames.add(newUsername);
+    newUsername = "Q";
+    Administration.signUp(newUsername, Role.SYSTEM_ADMIN, "red queen", "asdf1234");
+    addedUsernames.add(newUsername);
   }
   
   @AfterClass
@@ -30,6 +34,14 @@ public class AdministrationTest {
       IllegalPasswordException, UserAlreadyExistsException {
     final String newUsername = "humpty";
     Administration.signUp(newUsername, Role.DONOR, "dumpty", "abc123ABC~!@");
+    addedUsernames.add(newUsername);
+  }
+  
+  @Test
+  public void testSignUpSameDataDifferentUsername() throws IllegalPasswordLengthException,
+      IllegalPasswordException, UserAlreadyExistsException {
+    final String newUsername = "q";
+    Administration.signUp(newUsername, Role.SYSTEM_ADMIN, "red queen", "asdf1234");
     addedUsernames.add(newUsername);
   }
   
@@ -57,36 +69,40 @@ public class AdministrationTest {
     addedUsernames.add(newUsername);
   }
   
-  @Test /*(expected = UserAlreadyExistsException.class)*/
-  public void testSignUpUserAlreadyExists(){
-    fail("Not yet implemented");
+  @Test(expected = UserAlreadyExistsException.class)
+  public void testSignUpUserAlreadyExists() throws IllegalUserNameLengthException,
+      IllegalUserUsernameLengthException, IllegalPasswordLengthException, IllegalUserNameException,
+      IllegalUserRoleException, IllegalUserUsernameException, IllegalPasswordException,
+      UserAlreadyExistsException {
+    Administration.signUp("mad", Role.RECEIVER, "brother", "asdfasdf");
+    addedUsernames.add("mad");
   }
   
   /**** Login tests ****/
   
   @Test
-  public void testLogin(){
-    fail("Not yet implemented");
+  public void testLogin() throws BadLoginException {
+    Administration.login("Q", "asdf1234");
   }
   
-  @Test /*(expected = BadLoginException.class)*/
-  public void testLoginNullUsername(){
-    fail("Not yet implemented");
+  @Test(expected = BadLoginException.class)
+  public void testLoginNullUsername() throws BadLoginException {
+    Administration.login(null, "asdf1234");
   }
   
-  @Test /*(expected = BadLoginException.class)*/
-  public void testLoginNullInputPassword(){
-    fail("Not yet implemented");
+  @Test(expected = BadLoginException.class)
+  public void testLoginNullInputPassword() throws BadLoginException {
+    Administration.login("Q", null);
   }
   
-  @Test /*(expected = BadLoginException.class)*/
-  public void testLoginUsernameDoesntExist(){
-    fail("Not yet implemented");
+  @Test(expected = BadLoginException.class)
+  public void testLoginUsernameDoesntExist() throws BadLoginException {
+    Administration.login("q", "asdf1234");
   }
   
-  @Test /*(expected = BadLoginException.class)*/
-  public void testLoginPasswordDoesntMatch(){
-    fail("Not yet implemented");
+  @Test(expected = BadLoginException.class)
+  public void testLoginPasswordDoesntMatch() throws BadLoginException {
+    Administration.login("Q", "asdf12345");
   }
   
 }

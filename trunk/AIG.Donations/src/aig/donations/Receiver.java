@@ -3,6 +3,7 @@ package aig.donations;
 import java.util.List;
 
 import aig.donations.exceptions.CategoryDoesNotExistInProjectException;
+import aig.donations.exceptions.CategoryNotFoundException;
 import aig.donations.exceptions.IllegalItemStatusTransitionException;
 import aig.donations.exceptions.ItemNotMatchedException;
 import aig.donations.exceptions.NoPendingItemsException;
@@ -29,7 +30,11 @@ class Receiver extends User {
       throw new CategoryDoesNotExistInProjectException("No such category in the project");
     }
     
-    checker.checkCategoryIsntTopLevel(categoryId);
+    try {
+      checker.checkCategoryIsntTopLevel(categoryId);
+    } catch (CategoryNotFoundException e) {
+      throw new AssertionError(e);
+    }
     
     Item itemToBeReceived = null;
     try {

@@ -2,6 +2,8 @@ package aig.donations;
 
 import java.util.Date;
 
+import aig.donations.exceptions.CategoryIsTopLevelException;
+import aig.donations.exceptions.CategoryNotFoundException;
 import aig.donations.exceptions.IllegalCategoryDescriptionException;
 import aig.donations.exceptions.IllegalCategoryDescriptionLengthException;
 import aig.donations.exceptions.IllegalCategoryNameException;
@@ -30,26 +32,26 @@ import aig.donations.exceptions.IncorrectSocialWorkerException;
 public class ParameterLegalityChecker {
   
   // length limitations on the users' fields
-  protected final int    maxUserUsernameLength        = 20;
-  protected final int    minUserUsernameLength        = 1;
-  protected final int    maxUserNameLength            = 50;
-  protected final int    minUserNameLength            = 2;
-  protected final int    maxPasswordLength            = 20;
-  protected final int    minPasswordLength            = 6;
-  protected final int    maxProjectNameLength         = 50;
-  protected final int    minProjectNameLength         = 2;
-  protected final int    maxProjectDescriptionLength  = 100;
-  protected final int    minProjectDescriptionLength  = 0;
-  protected final int    maxProjectLocationLength     = 100;
-  protected final int    minProjectLocationLength     = 2;
-  protected final int    maxItemNameLength            = 50;
-  protected final int    minItemNameLength            = 2;
-  protected final int    maxItemDescriptionLength     = 100;
-  protected final int    minItemDescriptionLength     = 0;
-  protected final int    maxCategoryNameLength        = 50;
-  protected final int    minCategoryNameLength        = 2;
-  protected final int    maxCategoryDescriptionLength = 100;
-  protected final int    minCategoryDescriptionLength = 0;
+  protected final int    maxUserUsernameLength         = 20;
+  protected final int    minUserUsernameLength         = 1;
+  protected final int    maxUserNameLength             = 50;
+  protected final int    minUserNameLength             = 2;
+  protected final int    maxPasswordLength             = 20;
+  protected final int    minPasswordLength             = 6;
+  protected final int    maxProjectNameLength          = 50;
+  protected final int    minProjectNameLength          = 2;
+  protected final int    maxProjectDescriptionLength   = 100;
+  protected final int    minProjectDescriptionLength   = 0;
+  protected final int    maxProjectLocationLength      = 100;
+  protected final int    minProjectLocationLength      = 2;
+  protected final int    maxItemNameLength             = 50;
+  protected final int    minItemNameLength             = 2;
+  protected final int    maxItemDescriptionLength      = 100;
+  protected final int    minItemDescriptionLength      = 0;
+  protected final int    maxCategoryNameLength         = 50;
+  protected final int    minCategoryNameLength         = 2;
+  protected final int    maxCategoryDescriptionLength  = 100;
+  protected final int    minCategoryDescriptionLength  = 0;
   
   // structural limitations on the users' fields
   protected final String legalUserUsernameRegex        = "[a-zA-Z_0-9]*";
@@ -61,7 +63,6 @@ public class ParameterLegalityChecker {
   protected final String legalItemNameRegex            = "[a-zA-Z ]*";
   protected final String legalItemDescriptionRegex     = "[a-zA-Z0-9 ,'.-]*";
   protected final String legalCategoryDescriptionRegex = "[a-zA-Z0-9 ,'.-]*";
-
   
   /**
    * Checks legality of a user's real name.
@@ -75,10 +76,10 @@ public class ParameterLegalityChecker {
    */
   void checkUserName(String name) throws IllegalUserNameException, IllegalUserNameLengthException {
     checkString(name, minUserNameLength, maxUserNameLength, legalUserNameRegex,
-        new IllegalUserNameException("user name is null"), 
-        new IllegalUserNameLengthException(minUserNameLength, maxUserNameLength),
-        new IllegalUserNameException("user name has illegal characters"));
-    }
+        new IllegalUserNameException("user name is null"), new IllegalUserNameLengthException(
+            minUserNameLength, maxUserNameLength), new IllegalUserNameException(
+            "user name has illegal characters"));
+  }
   
   /**
    * Checks legality of a user's role.
@@ -107,7 +108,7 @@ public class ParameterLegalityChecker {
   void checkUserUsername(String username) throws IllegalUserUsernameException,
       IllegalUserUsernameLengthException {
     checkString(username, minUserUsernameLength, maxUserUsernameLength, legalUserUsernameRegex,
-        new IllegalUserUsernameException("username is null"), 
+        new IllegalUserUsernameException("username is null"),
         new IllegalUserUsernameLengthException(minUserUsernameLength, maxUserUsernameLength),
         new IllegalUserUsernameException("username has illegal characters"));
   }
@@ -125,7 +126,7 @@ public class ParameterLegalityChecker {
   void checkProjectName(String name) throws IllegalProjectNameException,
       IllegalProjectNameLengthException {
     checkString(name, minProjectNameLength, maxProjectNameLength, legalProjectNameRegex,
-        new IllegalProjectNameException("project name is null"), 
+        new IllegalProjectNameException("project name is null"),
         new IllegalProjectNameLengthException(minProjectNameLength, maxProjectNameLength),
         new IllegalProjectNameException("project name has illegal characters"));
   }
@@ -133,19 +134,19 @@ public class ParameterLegalityChecker {
   void checkProjectDescription(String description) throws IllegalProjectDescriptionException,
       IllegalProjectDescriptionLengthException {
     checkString(description, minProjectDescriptionLength, maxProjectDescriptionLength,
-        legalProjectDescriptionRegex,
-        new IllegalProjectDescriptionException("project description is null"), 
-        new IllegalProjectDescriptionLengthException(minProjectDescriptionLength, maxProjectDescriptionLength),
+        legalProjectDescriptionRegex, new IllegalProjectDescriptionException(
+            "project description is null"), new IllegalProjectDescriptionLengthException(
+            minProjectDescriptionLength, maxProjectDescriptionLength),
         new IllegalProjectDescriptionException("project description has illegal characters"));
   }
   
   void checkProjectLocation(String location) throws IllegalProjectLocationException,
       IllegalProjectLocationLengthException {
     checkString(location, minProjectLocationLength, maxProjectLocationLength,
-        legalProjectLocationRegex,
-        new IllegalProjectLocationException("project location is null"), 
-        new IllegalProjectLocationLengthException(minProjectLocationLength, maxProjectLocationLength),
-        new IllegalProjectLocationException("project location has illegal characters"));
+        legalProjectLocationRegex, new IllegalProjectLocationException("project location is null"),
+        new IllegalProjectLocationLengthException(minProjectLocationLength,
+            maxProjectLocationLength), new IllegalProjectLocationException(
+            "project location has illegal characters"));
   }
   
   void checkProjectEventTime(Date eventTime) throws IllegalProjectEventTimeException {
@@ -160,26 +161,26 @@ public class ParameterLegalityChecker {
   void checkItemName(String itemName) throws IllegalItemNameException,
       IllegalItemNameLengthException {
     checkString(itemName, minItemNameLength, maxItemNameLength, legalItemNameRegex,
-        new IllegalItemNameException("item name is null"), 
-        new IllegalItemNameLengthException(minItemNameLength, maxItemNameLength),
-        new IllegalItemNameException("item name has illegal characters"));
+        new IllegalItemNameException("item name is null"), new IllegalItemNameLengthException(
+            minItemNameLength, maxItemNameLength), new IllegalItemNameException(
+            "item name has illegal characters"));
     
   }
   
   void checkItemDescription(String itemDescription) throws IllegalItemDescriptionException,
       IllegalItemDescriptionLengthException {
     checkString(itemDescription, minItemDescriptionLength, maxItemDescriptionLength,
-        legalItemDescriptionRegex,
-        new IllegalItemDescriptionException("item description is null"), 
-        new IllegalItemDescriptionLengthException(minItemDescriptionLength, maxItemDescriptionLength),
-        new IllegalItemDescriptionException("item description has illegal characters"));
+        legalItemDescriptionRegex, new IllegalItemDescriptionException("item description is null"),
+        new IllegalItemDescriptionLengthException(minItemDescriptionLength,
+            maxItemDescriptionLength), new IllegalItemDescriptionException(
+            "item description has illegal characters"));
     
   }
   
   void checkCategoryName(String name) throws IllegalCategoryNameException,
       IllegalCategoryNameLengthException {
     checkString(name, minCategoryNameLength, maxCategoryNameLength, legalCategoryNameRegex,
-        new IllegalCategoryNameException("category name is null"), 
+        new IllegalCategoryNameException("category name is null"),
         new IllegalCategoryNameLengthException(minCategoryNameLength, maxCategoryNameLength),
         new IllegalCategoryNameException("category name has illegal characters"));
     
@@ -188,10 +189,9 @@ public class ParameterLegalityChecker {
   void checkCategoryDescription(String description) throws IllegalCategoryDescriptionException,
       IllegalCategoryDescriptionLengthException {
     checkString(description, minCategoryDescriptionLength, maxCategoryDescriptionLength,
-        legalCategoryDescriptionRegex,
-        new IllegalCategoryDescriptionException("category description is null"), 
-        new IllegalCategoryDescriptionLengthException(minCategoryDescriptionLength,
-            maxCategoryDescriptionLength),
+        legalCategoryDescriptionRegex, new IllegalCategoryDescriptionException(
+            "category description is null"), new IllegalCategoryDescriptionLengthException(
+            minCategoryDescriptionLength, maxCategoryDescriptionLength),
         new IllegalCategoryDescriptionException("category description has illegal characters"));
     
   }
@@ -203,14 +203,12 @@ public class ParameterLegalityChecker {
     
   }
   
-  void checkCategoryIsntTopLevel(long categoryId) {
-    /*
-     * if (-1 == categoryId || -1 ==
-     * Category.retrieveCategory(categoryId).getParentId()) { throw new
-     * categoryIsTopLevelException("The category is a top level category"); }
-     */
-    // TODO: fix that code for static/non-static stuff...
-    
+  void checkCategoryIsntTopLevel(long categoryId) throws CategoryNotFoundException,
+      CategoryIsTopLevelException {
+    if (-1 == categoryId
+        || -1 == new CategoryDatabaseGatewayImpl().retrieveCategory(categoryId).getParentId()) {
+      throw new CategoryIsTopLevelException("The category is a top level category");
+    }
   }
   
   void checkThatProjectIsOurs(Project project, String username, Role role)
@@ -220,9 +218,8 @@ public class ParameterLegalityChecker {
     }
   }
   
-  private void checkString(String str, int minLength, int maxLength,
-      String legalRegex, IllegalArgumentException nullException,
-      IllegalArgumentException illegalLengthException,
+  private void checkString(String str, int minLength, int maxLength, String legalRegex,
+      IllegalArgumentException nullException, IllegalArgumentException illegalLengthException,
       IllegalArgumentException illegalCharactersException) throws IllegalArgumentException {
     if (null == str) {
       throw nullException;

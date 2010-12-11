@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import aig.donations.exceptions.CategoryDoesNotExistInProjectException;
+import aig.donations.exceptions.CategoryNotFoundException;
 import aig.donations.exceptions.IllegalItemConditionException;
 import aig.donations.exceptions.ProjectClosedException;
 import aig.donations.exceptions.ProjectNotFoundException;
@@ -27,7 +28,11 @@ class Donor extends User {
       throw new CategoryDoesNotExistInProjectException("No such category in the project");
     }
     
-    checker.checkCategoryIsntTopLevel(categoryId);
+    try {
+      checker.checkCategoryIsntTopLevel(categoryId);
+    } catch (CategoryNotFoundException e) {
+      throw new AssertionError(e);
+    }
     checker.checkItemName(itemName);
     checker.checkItemDescription(itemDescription);
     checker.checkItemCondition(itemCondition);
