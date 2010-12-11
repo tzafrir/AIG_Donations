@@ -13,7 +13,7 @@ public class SystemAdmin extends User {
       throws CategoryNotFoundException {
     // TODO: throws...
     checker.checkCategoryName(name);
-    checker.checkCategoryDescription(name);
+    checker.checkCategoryDescription(description);
     
     // make sure parent category exists
     categoryDBGateway.retrieveCategory(parentId);
