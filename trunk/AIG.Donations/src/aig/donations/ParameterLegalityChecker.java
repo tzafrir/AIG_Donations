@@ -41,17 +41,17 @@ public class ParameterLegalityChecker {
   protected final int    minPasswordLength             = 6;
   protected final int    maxProjectNameLength          = 50;
   protected final int    minProjectNameLength          = 2;
-  protected final int    maxProjectDescriptionLength   = 100;
+  protected final int    maxProjectDescriptionLength   = 1000;
   protected final int    minProjectDescriptionLength   = 0;
-  protected final int    maxProjectLocationLength      = 100;
+  protected final int    maxProjectLocationLength      = 50;
   protected final int    minProjectLocationLength      = 2;
   protected final int    maxItemNameLength             = 50;
   protected final int    minItemNameLength             = 2;
-  protected final int    maxItemDescriptionLength      = 100;
+  protected final int    maxItemDescriptionLength      = 1000;
   protected final int    minItemDescriptionLength      = 0;
   protected final int    maxCategoryNameLength         = 50;
   protected final int    minCategoryNameLength         = 2;
-  protected final int    maxCategoryDescriptionLength  = 100;
+  protected final int    maxCategoryDescriptionLength  = 1000;
   protected final int    minCategoryDescriptionLength  = 0;
   
   // structural limitations on the users' fields

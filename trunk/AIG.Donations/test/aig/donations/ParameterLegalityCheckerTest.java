@@ -10,17 +10,130 @@ public class ParameterLegalityCheckerTest {
   
   ParameterLegalityChecker checker = new ParameterLegalityChecker();
   
-  /*
-   * @Test public void testCheckUserName() { fail("Not yet implemented"); }
-   * 
-   * @Test public void testCheckUserRole() { fail("Not yet implemented"); }
-   * 
-   * @Test public void testCheckUserUsername() { fail("Not yet implemented"); }
-   */// TODO- those were checked in UserTest. should they move here?
+  private final static String bigDescription1001Chars =
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 " +
+    "123456789 123456789 123456789 123456789 123456789 .";
   
-  /*
-   * @Test public void testCheckPassword() { fail("Not yet implemented"); }
-   */// TODO- this was checked in AdministrationTest- move here?
+  private final static String bigName51Chars =
+    "abcdefghi abcdefghi abcdefghi abcdefghi abcdefghi z";
+  
+  /**** CheckUserName ****/
+  @Test
+  public void testCheckUserNameLegal() throws IllegalUserNameLengthException,
+      IllegalUserNameException {
+    checker.checkUserName("Alice the great");
+  }
+  
+  @Test(expected = IllegalUserNameException.class)
+  public void testCheckUserNameNull() throws IllegalUserNameLengthException,
+      IllegalUserNameException {
+    checker.checkUserName(null);
+  }
+  
+  @Test(expected = IllegalUserNameLengthException.class)
+  public void testCheckUserNameTooShort() throws IllegalUserNameLengthException,
+      IllegalUserNameException {
+    checker.checkUserName("A");
+  }
+  
+  @Test(expected = IllegalUserNameLengthException.class)
+  public void testCheckUserNameLegalTooLong() throws IllegalUserNameLengthException,
+      IllegalUserNameException {
+    checker.checkUserName(bigName51Chars);
+  }
+  
+  @Test(expected = IllegalUserNameException.class)
+  public void testCheckUserNameIllegalCharacters() throws IllegalUserNameLengthException,
+      IllegalUserNameException {
+    checker.checkUserName("alice123");
+  }
+  
+  /**** CheckUserRole ****/
+  
+  @Test
+  public void testCheckUserRole() throws IllegalUserRoleException {
+    checker.checkUserRole(Role.DONOR);
+  }
+  
+  @Test (expected = IllegalUserRoleException.class)
+  public void testCheckUserRoleNull() throws IllegalUserRoleException {
+    checker.checkUserRole(null);
+  }
+  
+  
+  /**** CheckUserUsername ****/
+  @Test
+  public void testCheckUserUsernameLegal() throws IllegalUserUsernameLengthException,
+      IllegalUserUsernameException {
+    checker.checkUserUsername("Alice_1");
+  }
+  
+  @Test(expected = IllegalUserUsernameException.class)
+  public void testCheckUserUsernameNull() throws IllegalUserUsernameLengthException,
+      IllegalUserUsernameException {
+    checker.checkUserUsername(null);
+  }
+  
+  @Test(expected = IllegalUserUsernameLengthException.class)
+  public void testCheckUserUsernameTooShort() throws IllegalUserUsernameLengthException,
+      IllegalUserUsernameException {
+    checker.checkUserUsername("");
+  }
+  
+  @Test(expected = IllegalUserUsernameLengthException.class)
+  public void testCheckUserUsernameLegalTooLong() throws IllegalUserUsernameLengthException,
+      IllegalUserUsernameException {
+    checker.checkUserUsername("aaaaaaaaaabbbbbbbbbbc");
+  }
+  
+  @Test(expected = IllegalUserUsernameException.class)
+  public void testCheckUserUsernameIllegalCharacters() throws IllegalUserUsernameLengthException,
+      IllegalUserUsernameException {
+    checker.checkUserUsername("@lice");
+  }
+  
+  /**** CheckPassword ****/
+  @Test
+  public void testCheckPasswordLegal() throws IllegalPasswordLengthException,
+      IllegalPasswordException {
+    checker.checkPassword("sfd78@#$A");
+  }
+  
+  @Test(expected = IllegalPasswordException.class)
+  public void testCheckPasswordNull() throws IllegalPasswordLengthException,
+      IllegalPasswordException {
+    checker.checkPassword(null);
+  }
+  
+  @Test(expected = IllegalPasswordLengthException.class)
+  public void testCheckPasswordTooShort() throws IllegalPasswordLengthException,
+      IllegalPasswordException {
+    checker.checkPassword("abcde");
+  }
+  
+  @Test(expected = IllegalPasswordLengthException.class)
+  public void testCheckPasswordLegalTooLong() throws IllegalPasswordLengthException,
+      IllegalPasswordException {
+    checker.checkPassword("aaaaaaaaaabbbbbbbbbbc");
+  }
   
   /**** CheckProjectName ****/
   @Test
@@ -44,7 +157,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalProjectNameLengthException.class)
   public void testCheckProjectNameLegalTooLong() throws IllegalProjectNameLengthException,
       IllegalProjectNameException {
-    checker.checkProjectName("123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkProjectName(bigName51Chars);
   }
   
   @Test(expected = IllegalProjectNameException.class)
@@ -75,8 +188,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalProjectDescriptionLengthException.class)
   public void testCheckProjectDescriptionLegalTooLong()
       throws IllegalProjectDescriptionLengthException, IllegalProjectDescriptionException {
-    checker.checkProjectDescription("123456789 123456789 123456789 123456789 123456789 "
-        + "123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkProjectDescription(bigDescription1001Chars);
   }
   
   @Test(expected = IllegalProjectDescriptionException.class)
@@ -107,8 +219,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalProjectLocationLengthException.class)
   public void testCheckProjectLocationLegalTooLong() throws IllegalProjectLocationLengthException,
       IllegalProjectLocationException {
-    checker.checkProjectLocation("123456789 123456789 123456789 123456789 123456789 "
-        + "123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkProjectLocation(bigName51Chars);
   }
   
   @Test(expected = IllegalProjectLocationException.class)
@@ -165,7 +276,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalItemNameLengthException.class)
   public void testCheckItemNameLegalTooLong() throws IllegalItemNameLengthException,
       IllegalItemNameException {
-    checker.checkItemName("123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkItemName(bigName51Chars);
   }
   
   @Test(expected = IllegalItemNameException.class)
@@ -196,8 +307,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalItemDescriptionLengthException.class)
   public void testCheckItemDescriptionLegalTooLong() throws IllegalItemDescriptionLengthException,
       IllegalItemDescriptionException {
-    checker.checkItemDescription("123456789 123456789 123456789 123456789 123456789 "
-        + "123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkItemDescription(bigDescription1001Chars);
   }
   
   @Test(expected = IllegalItemDescriptionException.class)
@@ -228,7 +338,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalCategoryNameLengthException.class)
   public void testCheckCategoryNameLegalTooLong() throws IllegalCategoryNameLengthException,
       IllegalCategoryNameException {
-    checker.checkCategoryName("123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkCategoryName(bigName51Chars);
   }
   
   @Test(expected = IllegalCategoryNameException.class)
@@ -264,8 +374,7 @@ public class ParameterLegalityCheckerTest {
   @Test(expected = IllegalCategoryDescriptionLengthException.class)
   public void testCheckCategoryDescriptionLegalTooLong()
       throws IllegalCategoryDescriptionLengthException, IllegalCategoryDescriptionException {
-    checker.checkCategoryDescription("123456789 123456789 123456789 123456789 123456789 "
-        + "123456789 123456789 123456789 123456789 123456789 .");
+    checker.checkCategoryDescription(bigDescription1001Chars);
   }
   
   @Test(expected = IllegalCategoryDescriptionException.class)
