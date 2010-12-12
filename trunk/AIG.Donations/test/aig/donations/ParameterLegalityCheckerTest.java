@@ -1,7 +1,5 @@
 package aig.donations;
 
-import static org.junit.Assert.fail;
-
 import java.util.Date;
 
 import org.junit.Test;
@@ -325,15 +323,37 @@ public class ParameterLegalityCheckerTest {
   }
   
   @Test(expected = CategoryIsTopLevelException.class)
-  public void testCheckCategoryIsntTopLevelChildOfRoot() {
-    fail("Not yet implemented");
-    // add a category whose father is -1, call with it
-  }// TODO
+  public void testCheckCategoryIsntTopLevelChildOfRoot() throws CategoryNotFoundException,
+      CategoryIsTopLevelException {
+    CategoryDatabaseGateway gateway = new CategoryDatabaseGatewayStub();
+    long id = gateway.addToDB("name1", "d1", -1);
+    checker.checkCategoryIsntTopLevel(id, gateway);
+  }
   
   @Test
-  public void testCheckCategoryIsntTopLevelGrandchildOfRoot() {
-    fail("Not yet implemented");
-    // add a category whose grandfather is -1, call with it
-  }// TODO
+  public void testCheckCategoryIsntTopLevelGrandchildOfRoot() throws CategoryNotFoundException,
+      CategoryIsTopLevelException {
+    CategoryDatabaseGateway gateway = new CategoryDatabaseGatewayStub();
+    long id1 = gateway.addToDB("name1", "d1", -1);
+    long id2 = gateway.addToDB("name2", "d2", id1);
+    checker.checkCategoryIsntTopLevel(id2, gateway);
+  }
   
+  class CategoryDatabaseGatewayStub implements CategoryDatabaseGateway {
+    
+    private int lastId = 1;
+    
+    @Override
+    public Category retrieveCategory(long categoryId) throws CategoryNotFoundException {
+      Category $ = new Category(categoryId);
+      $.setParentId((categoryId == 1) ? -1 : categoryId - 1);
+      return $;
+    }
+    
+    @Override
+    public long addToDB(String name, String description, long parentId) {
+      return lastId++;
+    }
+    
+  }
 }

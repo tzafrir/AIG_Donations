@@ -262,8 +262,12 @@ public class ParameterLegalityChecker {
   
   void checkCategoryIsntTopLevel(long categoryId) throws CategoryNotFoundException,
       CategoryIsTopLevelException {
-    if (-1 == categoryId
-        || -1 == new CategoryDatabaseGatewayImpl().retrieveCategory(categoryId).getParentId()) {
+    checkCategoryIsntTopLevel(categoryId, new CategoryDatabaseGatewayImpl());
+  }
+  
+  void checkCategoryIsntTopLevel(long categoryId, CategoryDatabaseGateway categoryDBGateway)
+      throws CategoryNotFoundException, CategoryIsTopLevelException {
+    if (-1 == categoryId || -1 == categoryDBGateway.retrieveCategory(categoryId).getParentId()) {
       throw new CategoryIsTopLevelException("The category is a top level category");
     }
   }
