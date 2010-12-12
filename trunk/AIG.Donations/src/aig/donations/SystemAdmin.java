@@ -10,6 +10,7 @@ import aig.donations.exceptions.IllegalUserNameLengthException;
 import aig.donations.exceptions.IllegalUserRoleException;
 import aig.donations.exceptions.IllegalUserUsernameException;
 import aig.donations.exceptions.IllegalUserUsernameLengthException;
+import aig.donations.exceptions.UserNotFoundException;
 
 public class SystemAdmin extends User {
   protected CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
@@ -35,21 +36,18 @@ public class SystemAdmin extends User {
   public void renameCategory(long id, String newName) throws CategoryNotFoundException,
       IllegalCategoryNameLengthException, IllegalCategoryNameException {
     checker.checkCategoryName(newName);
-    
     categoryDBGateway.retrieveCategory(id).setName(newName);
   }
   
   public void moveCategory(long id, long newParent) throws CategoryNotFoundException {
     // make sure parent category exists
     categoryDBGateway.retrieveCategory(newParent);
-    
     categoryDBGateway.retrieveCategory(id).setParentId(newParent);
   }
   
   void changeCategoryDescription(long id, String newDescription) throws CategoryNotFoundException,
       IllegalCategoryDescriptionLengthException, IllegalCategoryDescriptionException {
     checker.checkCategoryDescription(newDescription);
-    
     categoryDBGateway.retrieveCategory(id).setDescription(newDescription);
   }
   
@@ -57,9 +55,11 @@ public class SystemAdmin extends User {
     categoryDBGateway.retrieveCategory(id).removeCategory();
   }
   
-  void removeUser(String username) {
-    // TODO: throws...
-    UserDBHandler.removeUser(username);
+  void removeUser(String username) throws UserNotFoundException {
+    removeUser(username, new UserDBHandler());
   }
   
+  void removeUser(String username, UserDBHandler userDBHandler) throws UserNotFoundException {
+    userDBHandler.removeUser(username);
+  }
 }

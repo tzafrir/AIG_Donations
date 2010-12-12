@@ -448,7 +448,7 @@ public class ParameterLegalityCheckerTest {
     checker.checkCategoryIsntTopLevel(id2, gateway);
   }
   
-  class CategoryDatabaseGatewayStub implements CategoryDatabaseGateway {
+  private class CategoryDatabaseGatewayStub implements CategoryDatabaseGateway {
     
     private int lastId = 1;
     

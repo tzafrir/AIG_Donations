@@ -5,7 +5,7 @@ import aig.donations.exceptions.UserNotFoundException;
 
 class UserDBHandler {
   
-  static String retrievePassword(String username) throws UserNotFoundException {
+  String retrievePassword(String username) throws UserNotFoundException {
     // TODO Auto-generated method stub
     return null;
   }
@@ -18,19 +18,19 @@ class UserDBHandler {
    * stub return null; }
    */
 
-  static User retrieveUser(String username) {
+  User retrieveUser(String username) {
     // TODO Auto-generated method stub
     return null;
   }
   
-  static void addToDB(String username, Role role, String name, String password)
+  void addToDB(String username, Role role, String name, String password)
       throws UserAlreadyExistsException {
     // TODO Auto-generated method stub
     // TODO: this should throw if such a user (username) already exists
     
   }
   
-  static void removeUser(String username) {
+  void removeUser(String username) throws UserNotFoundException {
     // TODO Auto-generated method stub
     // TODO: should throw if user doesn't exist
   }

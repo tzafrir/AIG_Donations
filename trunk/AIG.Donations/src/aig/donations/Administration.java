@@ -13,7 +13,15 @@ import aig.donations.exceptions.UserNotFoundException;
 
 public class Administration {
   
-  public static void signUp(String username, Role role, String name, String password)
+  private UserDBHandler userDBHandler = new UserDBHandler();
+  
+  public Administration() {}
+  
+  public Administration (UserDBHandler userDBHandler) {
+    this.userDBHandler = userDBHandler;
+  }
+  
+  public void signUp(String username, Role role, String name, String password)
       throws IllegalUserNameException, IllegalUserNameLengthException, IllegalUserRoleException,
       IllegalUserUsernameException, IllegalUserUsernameLengthException, IllegalPasswordException,
       IllegalPasswordLengthException, UserAlreadyExistsException {
@@ -22,21 +30,29 @@ public class Administration {
     
     new ParameterLegalityChecker().checkPassword(password);
     
-    UserDBHandler.addToDB(username, role, name, password);
+    userDBHandler.addToDB(username, role, name, password);
   }
   
-  public static User login(String username, String password) throws BadLoginException {
+  public User login(String username, String password) throws BadLoginException {
+    ParameterLegalityChecker checker = new ParameterLegalityChecker();
+    
     String realPassword = null;
     try {
-      realPassword = UserDBHandler.retrievePassword(username);
+      checker.checkUserUsername(username);
+      checker.checkPassword(password);
+      realPassword = userDBHandler.retrievePassword(username);
     } catch (UserNotFoundException e) {
-      throw new BadLoginException(); // bad user
+      throw new BadLoginException(); // user doesn't exist
+    } catch (IllegalUserUsernameException e) {
+      throw new BadLoginException(); // bad username
+    } catch (IllegalPasswordException e) {
+      throw new BadLoginException(); // bad password
     }
     if (null == realPassword || !realPassword.equals(password)) {
       throw new BadLoginException(); // bad password
     }
     
-    return UserDBHandler.retrieveUser(username);
+    return userDBHandler.retrieveUser(username);
   }
   
 }
