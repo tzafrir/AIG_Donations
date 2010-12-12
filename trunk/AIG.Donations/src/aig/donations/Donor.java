@@ -44,7 +44,7 @@ public class Donor extends User {
     try {
       checker.checkCategoryIsntTopLevel(categoryId);
     } catch (CategoryNotFoundException e) {
-      throw new AssertionError(e);
+      throw new AssertionError(e); //TODO- what is this?
     }
     checker.checkItemName(itemName);
     checker.checkItemDescription(itemDescription);
@@ -57,4 +57,6 @@ public class Donor extends User {
   public List<Item> getDonatedItems() {
     return Item.retrieveItemsByDonor(getUsername());
   }
+  
+  //TODO- use Item and Project in a way we can use stubs (ItemGateway? ProjectGateway?)
 }

@@ -94,7 +94,7 @@ public class SocialWorker extends User {
       IncorrectSocialWorkerException, IllegalProjectEventTimeException {
     checker.checkProjectEventTime(newEventTime);
     
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); 
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
@@ -194,4 +194,6 @@ public class SocialWorker extends User {
     }
     return false;
   }
+  
+//TODO- use Item, Project in a way we can use stubs (ItemGateway? ProjectGateway?)
 }

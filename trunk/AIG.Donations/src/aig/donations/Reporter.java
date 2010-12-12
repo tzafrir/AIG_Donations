@@ -39,4 +39,5 @@ public class Reporter extends User {
     return project;
   }
   
+//TODO- use Project in a way we can use stubs (ProjectGateway?)
 }

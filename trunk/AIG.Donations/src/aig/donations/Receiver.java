@@ -121,4 +121,6 @@ public class Receiver extends User {
     
     item.setStatus(newStatus);
   }
+  
+//TODO- use ReceivedItem and Project in a way we can use stubs (ReceivedItemGateway? ProjectGateway?)
 }

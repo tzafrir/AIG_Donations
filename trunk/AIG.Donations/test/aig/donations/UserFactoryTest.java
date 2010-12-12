@@ -6,10 +6,14 @@ import aig.donations.exceptions.IncompatiblePrivilegesException;
 
 public class UserFactoryTest {
   
-  User receiver     = new User("alice", Role.RECEIVER, "Alice P");
-  User donor        = new User("Mad_Hatter", Role.DONOR, "Johnny Depp");
-  User socialWorker = new User("kitty", Role.SOCIAL_WORKER, "Cheshire Cat");
-  User systemAdmin  = new User("smokey", Role.SYSTEM_ADMIN, "Caterpillar");
+  User receiver, donor, socialWorker, systemAdmin;
+  
+  public UserFactoryTest() throws Exception{
+    receiver     = new User("alice", Role.RECEIVER, "Alice P");
+    donor        = new User("Mad_Hatter", Role.DONOR, "Johnny Depp");
+    socialWorker = new User("kitty", Role.SOCIAL_WORKER, "Cheshire Cat");
+    systemAdmin  = new User("smokey", Role.SYSTEM_ADMIN, "Caterpillar");
+  }
   
   /* convert from Receiver: */
 
