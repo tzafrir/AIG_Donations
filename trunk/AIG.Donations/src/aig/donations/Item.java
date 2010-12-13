@@ -31,19 +31,6 @@ class Item {
     return null;
   }
   
-  static List<Item> retrieveItemsByDonor(String username) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
-  static long addToDB(String name, String description, long projectId, long categoryId,
-      ItemStatus status, Date donationTimestamp, String donorUsername, ItemCondition itemCondition) {
-    return 0;
-    // TODO Auto-generated method stub
-    // TODO: return new item id
-    
-  }
-  
   Category getCategory() {
     // TODO Auto-generated method stub
     return null;

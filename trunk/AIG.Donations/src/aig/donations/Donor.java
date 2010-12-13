@@ -49,14 +49,16 @@ public class Donor extends User {
     checker.checkItemName(itemName);
     checker.checkItemDescription(itemDescription);
     checker.checkItemCondition(itemCondition);
-    
-    return Item.addToDB(itemName, itemDescription, projectId, categoryId, ItemStatus.DONATED,
-        new Date(), getUsername(), itemCondition);
+
+    // TODO(eran/tzafrir): Use a class instance variable for ItemDBGateway.
+    return new ItemDatabaseGatewayImpl().addToDB(itemName, itemDescription, projectId, categoryId,
+        ItemStatus.DONATED, new Date(), getUsername(), itemCondition);
   }
   
   public List<Item> getDonatedItems() {
-    return Item.retrieveItemsByDonor(getUsername());
+    // TODO(eran/tzafrir): Use a class instance variable for ItemDBGateway.
+    return new ItemDatabaseGatewayImpl().retrieveItemsByDonor(getUsername());
   }
   
-  //TODO- use Item and Project in a way we can use stubs (ItemGateway? ProjectGateway?)
+  //TODO- use Project in a way we can use stubs (ProjectGateway?)
 }
