@@ -22,7 +22,7 @@ import aig.donations.exceptions.ProjectNotFoundException;
 public class Donor extends User {
   
   protected ItemDatabaseGateway itemDBGateway = new ItemDatabaseGatewayImpl();
-  // TODO: protected ProjectDatabaseGateway projectDBGateway = new ProjectDatabaseGatewayImpl();
+  protected ProjectDatabaseGateway projectDBGateway = new ProjectDatabaseGatewayImpl();
   
   Donor(User user) throws IllegalUserNameLengthException, IllegalUserUsernameLengthException,
       IllegalUserNameException, IllegalUserRoleException, IllegalUserUsernameException {
@@ -35,7 +35,7 @@ public class Donor extends User {
       CategoryIsTopLevelException, IllegalItemNameLengthException, IllegalItemNameException,
       IllegalItemDescriptionLengthException, IllegalItemDescriptionException {
     
-    Project project = Project.retrieveProject(projectId); // TODO: projectDBGateway.retrieveProject(projectId);
+    Project project = projectDBGateway.retrieveProject(projectId);
     if (project.isClosed()) {
       // also checks that the project exists
       throw new ProjectClosedException("Can't donate to a closed project");
@@ -60,6 +60,4 @@ public class Donor extends User {
   public List<Item> getDonatedItems() {
     return itemDBGateway.retrieveItemsByDonor(getUsername());
   }
-  
-  // TODO- use Project in a way we can use stubs - I put it in TODOs above.
 }

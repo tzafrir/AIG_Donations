@@ -9,12 +9,6 @@ import aig.donations.exceptions.ProjectNotFoundException;
 import aig.donations.exceptions.UserNotInWaitingListException;
 
 class Project {
-  // TODO: stub
-  static Project retrieveProject(long projectId) throws ProjectNotFoundException {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
   void setName(String newName) {
     // TODO Auto-generated method stub
     
@@ -51,46 +45,15 @@ class Project {
     return false;
   }
   
-  static long addToDB(String name, String description, String location, Date eventTime,
-      String socialWorkerUsername) {
-    // TODO Auto-generated method stub
-    // TODO: should return the id generated for this project
-    return 0;
-  }
-  
-  static void addToWaitingQueue(long projectId, long categoryId, String username) {
-    // TODO Auto-generated method stub
-  }
-  
   boolean hasCategory(long categoryId) {
     // TODO Auto-generated method stub
     return false;
-  }
-  
-  static void removeUserFromWaitingQueue(long projectId, long categoryId, String username)
-      throws UserNotInWaitingListException {
-    // TODO Auto-generated method stub
-    // TODO: removes the user 'username' from the queue, throws if it isn't
-    // there.
-    // TODO: removes only the first occurence of this user in the queue
-    // (he may be there multiple times)
   }
   
   Item getPendingItem(long categoryId) throws NoPendingItemsException {
     // TODO Auto-generated method stub
     // TODO: this method should do the tree traversing (downwards) to find an
     // item (I think the first one found should do nicely)
-    // since it is done much easier and more efficient in an SQL query
-    return null;
-  }
-  
-  static String removeFirstFromWaitingQueue(long projectId, long categoryId)
-      throws EmptyWaitingListException {
-    // TODO Auto-generated method stub
-    // TODO: return the username of the removed user
-    // TODO: this method should do the tree traversing (upwards) to find the
-    // most suitable user (the first one that wanted this project+category, or
-    // supercategories),
     // since it is done much easier and more efficient in an SQL query
     return null;
   }

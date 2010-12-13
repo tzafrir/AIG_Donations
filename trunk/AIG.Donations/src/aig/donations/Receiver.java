@@ -30,7 +30,8 @@ public class Receiver extends User {
   public void requestItem(long projectId, long categoryId) throws ProjectClosedException,
       ProjectNotFoundException, CategoryDoesNotExistInProjectException,
       IllegalItemStatusTransitionException, CategoryIsTopLevelException {
-    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
+    // TODO(eran/tzafrir): As always.
+    Project project = new ProjectDatabaseGatewayImpl().retrieveProject(projectId);  //TODO: projectDBGateway
     if (project.isClosed()) {
       // also checks that the project exists
       throw new ProjectClosedException("Can't request from a closed project");
@@ -50,7 +51,7 @@ public class Receiver extends User {
       itemToBeReceived = project.getPendingItem(categoryId);
     } catch (NoPendingItemsException e) {
       // no item waiting - add user to waiting queue
-      Project.addToWaitingQueue(projectId, categoryId, getUsername()); //TODO: projectDBGateway
+      new ProjectDatabaseGatewayImpl().addToWaitingQueue(projectId, categoryId, getUsername());  //TODO: projectDBGateway
       return;
     }
     
@@ -93,7 +94,7 @@ public class Receiver extends User {
     // this method is for users who are waiting in waiting queues (items weren't
     // matched)
     // TODO: add previous line to javadoc
-    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
+    Project project = new ProjectDatabaseGatewayImpl().retrieveProject(projectId); //TODO: projectDBGateway
     if (project.isClosed()) {
       // also checks that the project exists
       throw new ProjectClosedException("Can't regret from a closed project");
@@ -102,8 +103,8 @@ public class Receiver extends User {
       throw new CategoryDoesNotExistInProjectException("No such category in the project");
     }
     
-    Project.removeUserFromWaitingQueue(projectId, categoryId, getUsername()); //TODO: projectDBGateway
-    
+    new ProjectDatabaseGatewayImpl().
+        removeUserFromWaitingQueue(projectId, categoryId, getUsername()); //TODO: projectDBGateway
   }
   
   private void changeItemStatus(ReceivedItem item, ItemStatus newStatus)

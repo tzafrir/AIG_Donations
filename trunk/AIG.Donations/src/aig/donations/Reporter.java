@@ -34,7 +34,8 @@ public class Reporter extends User {
   
   private Project getOurProject(long projectId) throws ProjectNotFoundException,
       IncorrectSocialWorkerException {
-    Project project = Project.retrieveProject(projectId);
+    // TODO(eran/tzafrir): As always...
+    Project project = new ProjectDatabaseGatewayImpl().retrieveProject(projectId);
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     return project;
   }
