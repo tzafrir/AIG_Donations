@@ -1,8 +1,5 @@
 package aig.donations;
 
-import java.util.Date;
-import java.util.List;
-
 import aig.donations.exceptions.ItemNotFoundException;
 
 class Item {

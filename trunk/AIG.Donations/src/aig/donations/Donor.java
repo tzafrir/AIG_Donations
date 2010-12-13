@@ -21,6 +21,9 @@ import aig.donations.exceptions.ProjectNotFoundException;
 
 public class Donor extends User {
   
+  protected ItemDatabaseGateway itemDBGateway = new ItemDatabaseGatewayImpl();
+  // TODO: protected ProjectDatabaseGateway projectDBGateway = new ProjectDatabaseGatewayImpl();
+  
   Donor(User user) throws IllegalUserNameLengthException, IllegalUserUsernameLengthException,
       IllegalUserNameException, IllegalUserRoleException, IllegalUserUsernameException {
     super(user.getUsername(), user.getRole(), user.getName());
@@ -32,7 +35,7 @@ public class Donor extends User {
       CategoryIsTopLevelException, IllegalItemNameLengthException, IllegalItemNameException,
       IllegalItemDescriptionLengthException, IllegalItemDescriptionException {
     
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); // TODO: projectDBGateway.retrieveProject(projectId);
     if (project.isClosed()) {
       // also checks that the project exists
       throw new ProjectClosedException("Can't donate to a closed project");
@@ -44,21 +47,19 @@ public class Donor extends User {
     try {
       checker.checkCategoryIsntTopLevel(categoryId);
     } catch (CategoryNotFoundException e) {
-      throw new AssertionError(e); //TODO- what is this?
+      throw new AssertionError(e);
     }
     checker.checkItemName(itemName);
     checker.checkItemDescription(itemDescription);
     checker.checkItemCondition(itemCondition);
-
-    // TODO(eran/tzafrir): Use a class instance variable for ItemDBGateway.
-    return new ItemDatabaseGatewayImpl().addToDB(itemName, itemDescription, projectId, categoryId,
+    
+    return itemDBGateway.addToDB(itemName, itemDescription, projectId, categoryId,
         ItemStatus.DONATED, new Date(), getUsername(), itemCondition);
   }
   
   public List<Item> getDonatedItems() {
-    // TODO(eran/tzafrir): Use a class instance variable for ItemDBGateway.
-    return new ItemDatabaseGatewayImpl().retrieveItemsByDonor(getUsername());
+    return itemDBGateway.retrieveItemsByDonor(getUsername());
   }
   
-  //TODO- use Project in a way we can use stubs (ProjectGateway?)
+  // TODO- use Project in a way we can use stubs - I put it in TODOs above.
 }
