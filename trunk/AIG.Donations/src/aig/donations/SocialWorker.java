@@ -26,6 +26,8 @@ import aig.donations.exceptions.ProjectNotFoundException;
 
 public class SocialWorker extends User {
   protected CategoryDatabaseGateway categoryDBGateway = new CategoryDatabaseGatewayImpl();
+  protected ItemDatabaseGateway itemDBGateway = new ItemDatabaseGatewayImpl();
+  //TODO: protected ProjectDatabaseGateway projectDBGateway = new ProjectDatabaseGatewayImpl();
   
   SocialWorker(User user) throws IllegalUserNameLengthException,
       IllegalUserUsernameLengthException, IllegalUserNameException, IllegalUserRoleException,
@@ -42,12 +44,12 @@ public class SocialWorker extends User {
     checker.checkProjectDescription(description);
     checker.checkProjectLocation(location);
     checker.checkProjectEventTime(eventTime);
-    return Project.addToDB(name, description, location, eventTime, getUsername());
+    return Project.addToDB(name, description, location, eventTime, getUsername()); //TODO: projectDBGateway
   }
   
   public void closeProject(long projectId) throws ProjectNotFoundException,
       ProjectAlreadyClosedException, IncorrectSocialWorkerException {
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
@@ -63,7 +65,7 @@ public class SocialWorker extends User {
       IllegalProjectNameException {
     checker.checkProjectName(newName);
     
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
@@ -75,7 +77,7 @@ public class SocialWorker extends User {
       IllegalProjectDescriptionLengthException, IllegalProjectDescriptionException {
     checker.checkProjectDescription(newDescription);
     
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
@@ -87,14 +89,14 @@ public class SocialWorker extends User {
       IllegalProjectLocationException {
     checker.checkProjectLocation(newLocation);
     
-    Project.retrieveProject(projectId).setLocation(newLocation);
+    Project.retrieveProject(projectId).setLocation(newLocation); //TODO: projectDBGateway
   }
   
   public void changeProjectTime(long projectId, Date newEventTime) throws ProjectNotFoundException,
       IncorrectSocialWorkerException, IllegalProjectEventTimeException {
     checker.checkProjectEventTime(newEventTime);
     
-    Project project = Project.retrieveProject(projectId); 
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
@@ -105,7 +107,7 @@ public class SocialWorker extends User {
       throws ProjectNotFoundException, CategoryNotFoundException, IncorrectSocialWorkerException {
     categoryDBGateway.retrieveCategory(categoryId);
     
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     
     checker.checkThatProjectIsOurs(project, getUsername(), getRole());
     
@@ -115,8 +117,7 @@ public class SocialWorker extends User {
   public void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
       throws ItemNotFoundException, ProjectNotFoundException, ProjectClosedException,
       CategoryNotFoundException, IncorrectSocialWorkerException, ItemNotPendingException {
-    // TODO(eran/tzafrir): The usual...
-    Item item = new ItemDatabaseGatewayImpl().retrieveItem(itemId);
+    Item item = itemDBGateway.retrieveItem(itemId);
     
     checker.checkThatProjectIsOurs(item.getProject(), getUsername(), getRole());
     
@@ -124,7 +125,7 @@ public class SocialWorker extends User {
       throw new ItemNotPendingException("Can't move an item if it's not in stock");
     }
     
-    Project destinationProject = Project.retrieveProject(destinationProjectId);
+    Project destinationProject = Project.retrieveProject(destinationProjectId); //TODO: projectDBGateway
     
     if (destinationProject.isClosed()) {
       throw new ProjectClosedException("Trying to move an item to a closed project");
@@ -144,8 +145,7 @@ public class SocialWorker extends User {
   
   public void changeItemStatus(long itemId, ItemStatus newStatus) throws ItemNotFoundException,
       IllegalItemStatusTransitionException, IncorrectSocialWorkerException {
-    // TODO(eran/tzafrir): The usual...
-    Item item = new ItemDatabaseGatewayImpl().retrieveItem(itemId);
+    Item item = itemDBGateway.retrieveItem(itemId);
     
     checker.checkThatProjectIsOurs(item.getProject(), getUsername(), getRole());
     
@@ -163,7 +163,7 @@ public class SocialWorker extends User {
       String waitingUser = null;
       try {
         waitingUser = Project.removeFirstFromWaitingQueue(item.getProject().getId(), item
-            .getCategory().getId());
+            .getCategory().getId()); //TODO: projectDBGateway
       } catch (EmptyWaitingListException e) {
         // no one is waiting for this category
         return;
@@ -197,5 +197,5 @@ public class SocialWorker extends User {
     return false;
   }
   
-//TODO- use Item, Project in a way we can use stubs (ItemGateway? ProjectGateway?)
+//TODO- use Project in a way we can use stubs - I put it in TODOs above.
 }

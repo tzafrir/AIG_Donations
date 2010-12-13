@@ -1,6 +1,5 @@
 package aig.donations;
 
-import java.util.Date;
 import java.util.List;
 
 public class ReceivedItemDatabaseGatewayImpl implements ReceivedItemDatabaseGateway {

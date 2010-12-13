@@ -19,6 +19,8 @@ import aig.donations.exceptions.UserMismatchException;
 import aig.donations.exceptions.UserNotInWaitingListException;
 
 public class Receiver extends User {
+  protected ReceivedItemDatabaseGateway receivedItemDBGateway = new ReceivedItemDatabaseGatewayImpl();
+  //TODO: protected ProjectDatabaseGateway projectDBGateway = new ProjectDatabaseGatewayImpl();
   
   Receiver(User user) throws IllegalUserNameLengthException, IllegalUserUsernameLengthException,
       IllegalUserNameException, IllegalUserRoleException, IllegalUserUsernameException {
@@ -28,7 +30,7 @@ public class Receiver extends User {
   public void requestItem(long projectId, long categoryId) throws ProjectClosedException,
       ProjectNotFoundException, CategoryDoesNotExistInProjectException,
       IllegalItemStatusTransitionException, CategoryIsTopLevelException {
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     if (project.isClosed()) {
       // also checks that the project exists
       throw new ProjectClosedException("Can't request from a closed project");
@@ -48,7 +50,7 @@ public class Receiver extends User {
       itemToBeReceived = project.getPendingItem(categoryId);
     } catch (NoPendingItemsException e) {
       // no item waiting - add user to waiting queue
-      Project.addToWaitingQueue(projectId, categoryId, getUsername());
+      Project.addToWaitingQueue(projectId, categoryId, getUsername()); //TODO: projectDBGateway
       return;
     }
     
@@ -58,24 +60,20 @@ public class Receiver extends User {
   }
   
   public List<ReceivedItem> getReceivedItems() {
-    // TODO(eran/tzafrir): The usual...
-    return new ReceivedItemDatabaseGatewayImpl().retrieveReceivedItemsByReceiver(getUsername());
+    return receivedItemDBGateway.retrieveReceivedItemsByReceiver(getUsername());
   }
   
   public List<ReceivedItem> getMatchedItems() {
-    // TODO(eran/tzafrir): Use a class variable for the gateway.
-    return new ReceivedItemDatabaseGatewayImpl().retrieveMatchedItemsByReceiver(getUsername());
+    return receivedItemDBGateway.retrieveMatchedItemsByReceiver(getUsername());
   }
   
   public List<Pair<Project, Category>> getWaitingData() {
-    // TODO(eran/tzafrir): Use a class variable for the gateway.
-    return new ReceivedItemDatabaseGatewayImpl().retrieveWaitingDataByReceiver(getUsername());
+    return receivedItemDBGateway.retrieveWaitingDataByReceiver(getUsername());
   }
   
   public void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
       IllegalItemStatusTransitionException {
-    // TODO(eran/tzafrir): The usual...
-    ReceivedItem item = new ReceivedItemDatabaseGatewayImpl().retrieveItem(itemId);
+    ReceivedItem item = receivedItemDBGateway.retrieveItem(itemId);
     
     if (getUsername() != item.getReceiverUsername()) {
       throw new UserMismatchException("Trying to regret a request for an item that doesn't "
@@ -95,7 +93,7 @@ public class Receiver extends User {
     // this method is for users who are waiting in waiting queues (items weren't
     // matched)
     // TODO: add previous line to javadoc
-    Project project = Project.retrieveProject(projectId);
+    Project project = Project.retrieveProject(projectId); //TODO: projectDBGateway
     if (project.isClosed()) {
       // also checks that the project exists
       throw new ProjectClosedException("Can't regret from a closed project");
@@ -104,7 +102,7 @@ public class Receiver extends User {
       throw new CategoryDoesNotExistInProjectException("No such category in the project");
     }
     
-    Project.removeUserFromWaitingQueue(projectId, categoryId, getUsername());
+    Project.removeUserFromWaitingQueue(projectId, categoryId, getUsername()); //TODO: projectDBGateway
     
   }
   
@@ -125,5 +123,5 @@ public class Receiver extends User {
     item.setStatus(newStatus);
   }
   
-//TODO- use ReceivedItem and Project in a way we can use stubs (ReceivedItemGateway? ProjectGateway?)
+//TODO- use Project in a way we can use stubs - I put it in TODOs above.
 }
