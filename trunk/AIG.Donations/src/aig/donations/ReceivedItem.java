@@ -35,19 +35,4 @@ class ReceivedItem extends Item {
     // TODO Auto-generated method stub
     
   }
-  
-  static List<ReceivedItem> retrieveMatchedItemsByReceiver(String username) {
-    // TODO Auto-generated method stub
-    // TODO: return only the ones with status MATCHED
-    return null;
-  }
-  
-  static List<Pair<Project, Category>> retrieveWaitingDataByReceiver(String username) {
-    // TODO Auto-generated method stub
-    // TODO: return a list of pairs, where each pair of project+category
-    // represents that 'username' is waiting in the waiting queue for that
-    // category in that project.
-    return null;
-  }
-  
 }

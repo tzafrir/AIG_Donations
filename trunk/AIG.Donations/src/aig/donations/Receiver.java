@@ -62,11 +62,13 @@ public class Receiver extends User {
   }
   
   public List<ReceivedItem> getMatchedItems() {
-    return ReceivedItem.retrieveMatchedItemsByReceiver(getUsername());
+    // TODO(eran/tzafrir): Use a class variable for the gateway.
+    return new ReceivedItemDatabaseGatewayImpl().retrieveMatchedItemsByReceiver(getUsername());
   }
   
   public List<Pair<Project, Category>> getWaitingData() {
-    return ReceivedItem.retrieveWaitingDataByReceiver(getUsername());
+    // TODO(eran/tzafrir): Use a class variable for the gateway.
+    return new ReceivedItemDatabaseGatewayImpl().retrieveWaitingDataByReceiver(getUsername());
   }
   
   public void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
