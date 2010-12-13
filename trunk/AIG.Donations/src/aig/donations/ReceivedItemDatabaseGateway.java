@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 public interface ReceivedItemDatabaseGateway {
+  ReceivedItem retrieveItem(long itemId);
+  /**
+   * @return items with receiver username and status RECEIVED.
+   */
+  List<ReceivedItem> retrieveReceivedItemsByReceiver(String username);
   /**
    * @return items with receiver username and status MATCHED.
    */

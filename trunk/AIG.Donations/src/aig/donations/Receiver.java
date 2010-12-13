@@ -58,7 +58,8 @@ public class Receiver extends User {
   }
   
   public List<ReceivedItem> getReceivedItems() {
-    return ReceivedItem.retrieveReceivedItemsByReceiver(getUsername());
+    // TODO(eran/tzafrir): The usual...
+    return new ReceivedItemDatabaseGatewayImpl().retrieveReceivedItemsByReceiver(getUsername());
   }
   
   public List<ReceivedItem> getMatchedItems() {
@@ -73,8 +74,8 @@ public class Receiver extends User {
   
   public void regretItemRequest(long itemId) throws ItemNotMatchedException, UserMismatchException,
       IllegalItemStatusTransitionException {
-    
-    ReceivedItem item = ReceivedItem.retrieveItem(itemId);
+    // TODO(eran/tzafrir): The usual...
+    ReceivedItem item = new ReceivedItemDatabaseGatewayImpl().retrieveItem(itemId);
     
     if (getUsername() != item.getReceiverUsername()) {
       throw new UserMismatchException("Trying to regret a request for an item that doesn't "
