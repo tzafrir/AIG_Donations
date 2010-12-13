@@ -115,7 +115,8 @@ public class SocialWorker extends User {
   public void moveItem(long destinationProjectId, long destinationCategoryId, long itemId)
       throws ItemNotFoundException, ProjectNotFoundException, ProjectClosedException,
       CategoryNotFoundException, IncorrectSocialWorkerException, ItemNotPendingException {
-    Item item = Item.retrieveItem(itemId);
+    // TODO(eran/tzafrir): The usual...
+    Item item = new ItemDatabaseGatewayImpl().retrieveItem(itemId);
     
     checker.checkThatProjectIsOurs(item.getProject(), getUsername(), getRole());
     
@@ -143,7 +144,8 @@ public class SocialWorker extends User {
   
   public void changeItemStatus(long itemId, ItemStatus newStatus) throws ItemNotFoundException,
       IllegalItemStatusTransitionException, IncorrectSocialWorkerException {
-    Item item = Item.retrieveItem(itemId);
+    // TODO(eran/tzafrir): The usual...
+    Item item = new ItemDatabaseGatewayImpl().retrieveItem(itemId);
     
     checker.checkThatProjectIsOurs(item.getProject(), getUsername(), getRole());
     

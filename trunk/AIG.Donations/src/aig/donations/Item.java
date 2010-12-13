@@ -3,12 +3,6 @@ package aig.donations;
 import aig.donations.exceptions.ItemNotFoundException;
 
 class Item {
-  // TODO: stub
-  static Item retrieveItem(long itemId) throws ItemNotFoundException {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
   void setStatus(ItemStatus newStatus) {
     // TODO Auto-generated method stub
   }
